@@ -1,0 +1,139 @@
+/* ── Filter trigger ───────────────────────────────────────────── */
+.ksrtc-filter {
+  display: inline-block;
+  position: relative;
+  font-family: var(--font-family-base);
+}
+
+.ksrtc-filter__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-surface-container-low, #F7F2FA);
+  border: 1px solid var(--color-outline-variant, #CAC4D0);
+  border-radius: var(--shape-full, 100px);
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface, #1C1B1F);
+  white-space: nowrap;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.ksrtc-filter__btn:hover {
+  background: var(--color-surface-container, #F3EDF7);
+  border-color: var(--color-outline, #79747E);
+}
+
+/* Active — has a selection */
+.ksrtc-filter__btn--active {
+  background: var(--color-secondary-container, #FFE2B5);
+  border-color: var(--color-secondary, #FF8C00);
+  color: var(--color-on-secondary-container, #261900);
+}
+
+.ksrtc-filter__btn--active:hover {
+  background: #ffd080;
+}
+
+/* Open state border */
+.ksrtc-filter--open .ksrtc-filter__btn {
+  border-color: var(--color-primary, #6750A4);
+}
+
+.ksrtc-filter__icon   { font-size: 16px !important; flex-shrink: 0; }
+.ksrtc-filter__chevron { font-size: 16px !important; flex-shrink: 0; }
+
+.ksrtc-filter__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--color-secondary, #FF8C00);
+  color: var(--color-on-secondary, #fff);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+
+/* ── Panel ────────────────────────────────────────────────────── */
+.ksrtc-filter__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 300;
+  background: var(--color-surface-container-low, #F7F2FA);
+  border: 1px solid var(--color-outline-variant, #CAC4D0);
+  border-radius: 12px;
+  box-shadow: var(--elevation-2, 0 2px 8px rgba(0,0,0,.12));
+  padding: 6px 0;
+  min-width: 200px;
+  animation: filter-open 100ms ease;
+}
+
+@keyframes filter-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ksrtc-filter__divider {
+  height: 1px;
+  background: var(--color-outline-variant, #CAC4D0);
+  margin: 4px 0;
+}
+
+/* ── Option row ───────────────────────────────────────────────── */
+.ksrtc-filter__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface, #1C1B1F);
+  text-align: left;
+  transition: background 100ms ease;
+}
+
+.ksrtc-filter__option:hover {
+  background: var(--color-surface-container, #F3EDF7);
+}
+
+.ksrtc-filter__option--selected {
+  color: var(--color-primary, #6750A4);
+  background: var(--color-primary-container, #EADDFF);
+}
+
+.ksrtc-filter__option--selected:hover {
+  background: #dfd6f5;
+}
+
+.ksrtc-filter__check {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary, #6750A4);
+  flex-shrink: 0;
+}
+
+/* ── Dark mode ────────────────────────────────────────────────── */
+[data-theme="dark"] .ksrtc-filter__panel {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+}
+
+[data-theme="dark"] .ksrtc-filter__btn {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+}

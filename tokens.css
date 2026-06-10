@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════
+   OPRS DESIGN SYSTEM — DESIGN TOKENS
+   Based on Material Design 3
+   Project: OPRS Advanced Ticket Booking
+   Version: 1.0
+   Last updated: June 2026
+═══════════════════════════════════════════════════════ */
+
+:root {
+
+  /* ─────────────────────────────────────────────────
+     COLOR TOKENS
+  ───────────────────────────────────────────────── */
+
+  /* Primary — KSRTC Blue
+     Used for: main UI surfaces, headers, primary actions */
+  --color-primary:                  #1A56A0;
+  --color-on-primary:               #FFFFFF;
+  --color-primary-container:        #D6E4FF;
+  --color-on-primary-container:     #00205F;
+  --color-primary-fixed:            #D6E4FF;
+  --color-primary-fixed-dim:        #A8C8FF;
+
+  /* Secondary — KSRTC Orange
+     Used for: CTAs, SELECT buttons, highlights, credits */
+  --color-secondary:                #D84315;
+  --color-on-secondary:             #FFFFFF;
+  --color-secondary-container:      #FFDBCA;
+  --color-on-secondary-container:   #5C1900;
+
+  /* Tertiary — Success / Confirmed
+     Used for: booking confirmed, balance amount, success states */
+  --color-tertiary:                 #2E7D32;
+  --color-on-tertiary:              #FFFFFF;
+  --color-tertiary-container:       #E8F5E9;
+  --color-on-tertiary-container:    #1B5E20;
+
+  /* Error
+     Used for: validation errors, form errors */
+  --color-error:                    #B3261E;
+  --color-on-error:                 #FFFFFF;
+  --color-error-container:          #F9DEDC;
+  --color-on-error-container:       #410E0B;
+
+  /* Surface Levels
+     Surface containers used for layering depth */
+  --color-surface:                  #FFFFFF;
+  --color-surface-dim:              #DCE3EE;
+  --color-surface-bright:           #FAFAFA;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low:    #EEF2F9;
+  --color-surface-container:        #E8EDF7;
+  --color-surface-container-high:   #E2E8F3;
+  --color-surface-container-highest:#DCE3EE;
+  --color-on-surface:               #1A1C1E;
+  --color-on-surface-variant:       #44464F;
+  --color-surface-variant:          #E3E6EF;
+
+  /* Background */
+  --color-background:               #F1F4FB;
+  --color-on-background:            #1A1C1E;
+
+  /* Outline */
+  --color-outline:                  #74777F;
+  --color-outline-variant:          #C4C6D0;
+
+  /* Inverse (for snackbars, tooltips) */
+  --color-inverse-surface:          #2F3033;
+  --color-inverse-on-surface:       #F2F0F4;
+  --color-inverse-primary:          #A8C8FF;
+
+  /* Seat Map Specific */
+  --color-seat-available:           #E8F5E9;
+  --color-seat-available-border:    #A5D6A7;
+  --color-seat-available-text:      #2E7D32;
+  --color-seat-ladies:              #FCE4EC;
+  --color-seat-ladies-border:       #F48FB1;
+  --color-seat-ladies-text:         #C2185B;
+  --color-seat-blocked:             #ECEFF1;
+  --color-seat-blocked-border:      #B0BEC5;
+  --color-seat-blocked-text:        #90A4AE;
+  --color-seat-conductor:           #E3F2FD;
+  --color-seat-conductor-border:    #90CAF9;
+  --color-seat-conductor-text:      #1565C0;
+  --color-seat-quota:               #FFF9C4;
+  --color-seat-quota-border:        #FFF176;
+  --color-seat-quota-text:          #F57F17;
+
+
+  /* ─────────────────────────────────────────────────
+     TYPOGRAPHY — MD3 TYPE SCALE
+     Font: Roboto (Google Fonts)
+  ───────────────────────────────────────────────── */
+
+  /* Font family */
+  --font-family-base:     'Roboto', sans-serif;
+
+  /* Display — for hero/splash only */
+  --type-display-large-size:   57px;
+  --type-display-large-lh:     64px;
+  --type-display-large-weight: 400;
+  --type-display-medium-size:  45px;
+  --type-display-medium-lh:    52px;
+  --type-display-medium-weight:400;
+  --type-display-small-size:   36px;
+  --type-display-small-lh:     44px;
+  --type-display-small-weight: 400;
+
+  /* Headline — page titles, section headers */
+  --type-headline-large-size:  32px;
+  --type-headline-large-lh:    40px;
+  --type-headline-large-weight:400;
+  --type-headline-medium-size: 28px;
+  --type-headline-medium-lh:   36px;
+  --type-headline-medium-weight:400;
+  --type-headline-small-size:  24px;
+  --type-headline-small-lh:    32px;
+  --type-headline-small-weight:400;
+
+  /* Title — card titles, dialog headers */
+  --type-title-large-size:     22px;
+  --type-title-large-lh:       28px;
+  --type-title-large-weight:   400;
+  --type-title-medium-size:    16px;
+  --type-title-medium-lh:      24px;
+  --type-title-medium-weight:  500;
+  --type-title-small-size:     14px;
+  --type-title-small-lh:       20px;
+  --type-title-small-weight:   500;
+
+  /* Label — buttons, chips, table headers */
+  --type-label-large-size:     14px;
+  --type-label-large-lh:       20px;
+  --type-label-large-weight:   500;
+  --type-label-medium-size:    12px;
+  --type-label-medium-lh:      16px;
+  --type-label-medium-weight:  500;
+  --type-label-small-size:     11px;
+  --type-label-small-lh:       16px;
+  --type-label-small-weight:   500;
+
+  /* Body — content, form values, table cells */
+  --type-body-large-size:      16px;
+  --type-body-large-lh:        24px;
+  --type-body-large-weight:    400;
+  --type-body-medium-size:     14px;
+  --type-body-medium-lh:       20px;
+  --type-body-medium-weight:   400;
+  --type-body-small-size:      12px;
+  --type-body-small-lh:        16px;
+  --type-body-small-weight:    400;
+
+
+  /* ─────────────────────────────────────────────────
+     SHAPE — BORDER RADIUS
+  ───────────────────────────────────────────────── */
+
+  --shape-none:       0px;      /* Sharp — no rounding */
+  --shape-extra-sm:   4px;      /* Extra small — table cells, text fields */
+  --shape-sm:         8px;      /* Small — cards (inner), chips small */
+  --shape-md:        12px;      /* Medium — cards, panels, fare summary */
+  --shape-lg:        16px;      /* Large — ticket card */
+  --shape-xl:        28px;      /* Extra large — dialogs, bottom sheets */
+  --shape-full:    9999px;      /* Full — buttons, chips, badges */
+
+
+  /* ─────────────────────────────────────────────────
+     ELEVATION — BOX SHADOWS
+     MD3: tonal surface overlay not used here; shadows only
+  ───────────────────────────────────────────────── */
+
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgba(0,0,0,.25),  0 1px 3px 1px rgba(0,0,0,.12);
+  --elevation-2: 0 1px 2px rgba(0,0,0,.25),  0 2px 6px 2px rgba(0,0,0,.12);
+  --elevation-3: 0 1px 3px rgba(0,0,0,.3),   0 4px 8px 3px rgba(0,0,0,.15);
+  --elevation-4: 0 2px 3px rgba(0,0,0,.3),   0 6px 10px 4px rgba(0,0,0,.15);
+  --elevation-5: 0 4px 4px rgba(0,0,0,.3),   0 8px 12px 6px rgba(0,0,0,.15);
+
+
+  /* ─────────────────────────────────────────────────
+     SPACING
+     4px base unit system
+  ───────────────────────────────────────────────── */
+
+  --space-1:   4px;    /* xs  — icon padding, tight gaps */
+  --space-2:   8px;    /* sm  — chip padding, small gaps */
+  --space-3:  12px;    /* md  — button padding, field gaps */
+  --space-4:  16px;    /* base — standard padding, card gaps */
+  --space-5:  20px;    /* lg  — section padding */
+  --space-6:  24px;    /* xl  — dialog padding, large gaps */
+  --space-8:  32px;    /* 2x  — section margins */
+  --space-10: 40px;    /* 2.5x — large section spacing */
+  --space-12: 48px;    /* 3x  — hero spacing */
+  --space-16: 64px;    /* 4x  — page-level top bar */
+
+
+  /* ─────────────────────────────────────────────────
+     MOTION (transitions)
+  ───────────────────────────────────────────────── */
+
+  --motion-duration-short:   150ms;
+  --motion-duration-medium:  250ms;
+  --motion-duration-long:    400ms;
+  --motion-easing-standard:  cubic-bezier(0.2, 0, 0, 1);
+  --motion-easing-decelerate:cubic-bezier(0, 0, 0, 1);
+  --motion-easing-accelerate:cubic-bezier(0.3, 0, 1, 1);
+
+}

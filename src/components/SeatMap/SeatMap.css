@@ -1,0 +1,233 @@
+/* ── Bus container ─────────────────────────────────────────────── */
+.ksrtc-seat-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-family: var(--font-family-base);
+}
+
+.ksrtc-bus-container {
+  display: inline-block;
+  background: var(--color-surface-container-low, #f5f0fb);
+  border: 1.5px solid var(--color-outline-variant, #CAC4D0);
+  border-radius: 16px;
+  padding: 16px 20px 16px 8px;
+  overflow-x: auto;
+}
+
+/* 2-column grid: left label strip + berth content */
+.ksrtc-bus-grid {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 6px 0;
+  align-items: center;
+}
+
+/* Left label strip */
+.ksrtc-bg-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 4px;
+}
+
+.ksrtc-bg-left--lower-label {
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+.ksrtc-steering-icon {
+  font-size: 20px !important;
+  color: var(--color-on-surface-variant, #49454E);
+  display: block;
+}
+
+.ksrtc-lower-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant, #49454E);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  line-height: 1;
+}
+
+/* Divider between upper/lower */
+.ksrtc-berth-mid {
+  height: 14px;
+  border-top: 1.5px dashed var(--color-outline-variant, #CAC4D0);
+  margin: 2px 0;
+  align-self: center;
+}
+
+/* ── Berth section & columns ───────────────────────────────────── */
+.ksrtc-berth-section { width: 100%; }
+
+.ksrtc-berth-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.ksrtc-berth-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Empty placeholder when a column has only 1 seat */
+.ksrtc-seat-empty {
+  width: 38px;
+  height: 38px;
+}
+
+/* ── Seat cell ─────────────────────────────────────────────────── */
+.ksrtc-seat {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  border: 1.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  line-height: 1;
+}
+
+.ksrtc-seat:hover:not(.ksrtc-seat--unselectable) {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.ksrtc-seat:focus-visible {
+  outline: 2px solid var(--color-primary, #6750A4);
+  outline-offset: 2px;
+}
+
+/* Available */
+.ksrtc-seat--available {
+  background: #fff;
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+/* Selected (overrides available/ladies) */
+.ksrtc-seat--selected {
+  background: #1b5e20 !important;
+  border-color: #1b5e20 !important;
+  color: #fff !important;
+}
+
+/* Ladies */
+.ksrtc-seat--ladies {
+  background: #fce4ec;
+  border-color: #c2185b;
+  color: #c2185b;
+}
+
+/* Blocked */
+.ksrtc-seat--blocked {
+  background: #f0f0f0;
+  border-color: #b0b0b0;
+  color: #b0b0b0;
+  cursor: default;
+}
+
+/* Conductor */
+.ksrtc-seat--conductor {
+  background: #fff3e0;
+  border-color: #e65100;
+  color: #e65100;
+  cursor: default;
+}
+
+/* Quota */
+.ksrtc-seat--quota {
+  background: #e8eaf6;
+  border-color: #3949ab;
+  color: #3949ab;
+  cursor: default;
+}
+
+.ksrtc-seat--unselectable {
+  cursor: default;
+}
+
+/* ── Legend ────────────────────────────────────────────────────── */
+.ksrtc-seat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.ksrtc-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-on-surface, #1C1B1F);
+}
+
+.ksrtc-legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1.5px solid;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.ksrtc-legend--available .ksrtc-legend-swatch { background: #fff;     border-color: #2e7d32; }
+.ksrtc-legend--selected  .ksrtc-legend-swatch { background: #1b5e20;  border-color: #1b5e20; }
+.ksrtc-legend--ladies    .ksrtc-legend-swatch { background: #fce4ec;  border-color: #c2185b; }
+.ksrtc-legend--blocked   .ksrtc-legend-swatch { background: #f0f0f0;  border-color: #b0b0b0; }
+.ksrtc-legend--conductor .ksrtc-legend-swatch { background: #fff3e0;  border-color: #e65100; }
+.ksrtc-legend--quota     .ksrtc-legend-swatch { background: #e8eaf6;  border-color: #3949ab; }
+
+/* ── Selection summary ─────────────────────────────────────────── */
+.ksrtc-seat-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary, #6750A4);
+  background: var(--color-primary-container, #EADDFF);
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.ksrtc-seat-summary__count {
+  color: var(--color-on-surface-variant, #49454E);
+  font-weight: 400;
+}
+
+/* ── Dark mode ─────────────────────────────────────────────────── */
+[data-theme="dark"] .ksrtc-bus-container {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+}
+
+[data-theme="dark"] .ksrtc-seat--available {
+  background: #1a2e1a;
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+
+[data-theme="dark"] .ksrtc-seat--selected {
+  background: #2e7d32 !important;
+  border-color: #66bb6a !important;
+  color: #fff !important;
+}
+
+[data-theme="dark"] .ksrtc-seat--blocked {
+  background: #2a2a2a;
+  border-color: #555;
+  color: #777;
+}

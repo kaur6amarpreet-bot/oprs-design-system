@@ -1,0 +1,71 @@
+/* ── Stat group (horizontal row of multiple stats) ───────────── */
+.ksrtc-stat-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-family: var(--font-family-base);
+}
+
+.ksrtc-stat-group > .ksrtc-stat-item + .ksrtc-stat-item {
+  border-left: 1px solid var(--color-outline-variant, #CAC4D0);
+}
+
+/* ── Stat item ────────────────────────────────────────────────── */
+.ksrtc-stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-family-base);
+}
+
+.ksrtc-stat-item__icon {
+  font-size: 18px !important;
+  color: var(--color-on-surface-variant, #49454E);
+  flex-shrink: 0;
+}
+
+.ksrtc-stat-item__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ksrtc-stat-item__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant, #49454E);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.ksrtc-stat-item__value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface, #1C1B1F);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Currency variant — primary colour value */
+.ksrtc-stat-item--currency .ksrtc-stat-item__value {
+  color: var(--color-primary, #6750A4);
+}
+
+/* Highlight variant — orange/secondary colour */
+.ksrtc-stat-item--highlight .ksrtc-stat-item__value {
+  color: var(--color-secondary, #FF8C00);
+}
+
+/* ── In TopAppBar context (light bar background) ─────────────── */
+.ksrtc-stat-item--bar {
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 6px;
+}
+
+.ksrtc-stat-item--bar .ksrtc-stat-item__label { color: rgba(255,255,255,0.7); }
+.ksrtc-stat-item--bar .ksrtc-stat-item__value { color: #fff; }

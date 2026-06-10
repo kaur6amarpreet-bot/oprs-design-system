@@ -1,0 +1,145 @@
+/* ── Fare card ────────────────────────────────────────────────── */
+.ksrtc-fare-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-container-low, #F7F2FA);
+  border: 1px solid var(--color-outline-variant, #CAC4D0);
+  border-radius: 12px;
+  padding: 16px;
+  font-family: var(--font-family-base);
+  min-width: 260px;
+}
+
+.ksrtc-fare-card--compact { padding: 12px; border-radius: 8px; }
+
+/* ── Title ────────────────────────────────────────────────────── */
+.ksrtc-fare-card__title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant, #49454E);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-outline-variant, #CAC4D0);
+}
+
+/* ── Fare lines ───────────────────────────────────────────────── */
+.ksrtc-fare-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ksrtc-fare-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ksrtc-fare-line__label {
+  font-size: 13px;
+  color: var(--color-on-surface, #1C1B1F);
+  flex: 1;
+}
+
+.ksrtc-fare-line__amount {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface, #1C1B1F);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Deduction — green amount */
+.ksrtc-fare-line--deduction .ksrtc-fare-line__amount {
+  color: #2e7d32;
+}
+
+.ksrtc-fare-line--deduction .ksrtc-fare-line__label {
+  color: var(--color-on-surface-variant, #49454E);
+}
+
+/* Tax line — slightly muted */
+.ksrtc-fare-line--tax .ksrtc-fare-line__label,
+.ksrtc-fare-line--tax .ksrtc-fare-line__amount {
+  font-size: 12px;
+  color: var(--color-on-surface-variant, #49454E);
+}
+
+/* Subtotal — slightly heavier */
+.ksrtc-fare-line--subtotal .ksrtc-fare-line__label,
+.ksrtc-fare-line--subtotal .ksrtc-fare-line__amount {
+  font-weight: 600;
+}
+
+/* ── Divider ──────────────────────────────────────────────────── */
+.ksrtc-fare-divider {
+  height: 1px;
+  background: var(--color-outline-variant, #CAC4D0);
+  margin: 10px 0;
+}
+
+/* ── Total row ────────────────────────────────────────────────── */
+.ksrtc-fare-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ksrtc-fare-total__label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface, #1C1B1F);
+}
+
+.ksrtc-fare-total__amount {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-primary, #6750A4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Balance row ──────────────────────────────────────────────── */
+.ksrtc-fare-balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--color-secondary-container, #FFE2B5);
+  border-radius: 8px;
+}
+
+.ksrtc-fare-balance__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-secondary-container, #261900);
+}
+
+.ksrtc-fare-balance__icon {
+  font-size: 16px !important;
+}
+
+.ksrtc-fare-balance__amount {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-on-secondary-container, #261900);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Dark mode ────────────────────────────────────────────────── */
+[data-theme="dark"] .ksrtc-fare-card {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+}
+
+[data-theme="dark"] .ksrtc-fare-balance {
+  background: var(--color-secondary-container);
+}

@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KSRTC Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+/* ── SHOWCASE LAYOUT ──────────────────────────── */
+body { display: flex; min-height: 100vh; }
+
+.ds-sidebar {
+  width: 220px; flex-shrink: 0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-outline-variant);
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; display: flex; flex-direction: column;
+  box-shadow: var(--elevation-1);
+  z-index: 10;
+}
+.ds-sidebar .sidebar-brand {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+.ds-sidebar .sidebar-brand .brand-name {
+  font-size: 13px; font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: .3px;
+}
+.ds-sidebar .sidebar-brand .brand-version {
+  font-size: 11px; color: var(--color-on-surface-variant);
+  margin-top: 2px;
+}
+.ds-sidebar nav { padding: 8px 0; }
+.nav-group-label {
+  font-size: 10px; font-weight: 700;
+  color: var(--color-on-surface-variant);
+  letter-spacing: .7px; text-transform: uppercase;
+  padding: 12px 16px 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--color-on-surface-variant);
+  cursor: pointer; text-decoration: none;
+  border-radius: 0;
+  transition: background .15s, color .15s;
+  border-left: 3px solid transparent;
+}
+.nav-item:hover { background: var(--color-surface-container-low); color: var(--color-on-surface); }
+.nav-item.active {
+  background: var(--color-primary-container);
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+  font-weight: 600;
+}
+.nav-item .material-symbols-outlined { font-size: 16px; }
+
+.ds-main {
+  flex: 1; min-width: 0;
+  padding: 40px 48px;
+  overflow-y: auto;
+}
+
+/* ── SECTION ──────────────────────────────────── */
+.ds-section {
+  margin-bottom: 64px;
+  scroll-margin-top: 24px;
+}
+.ds-section-title {
+  font-size: 28px; font-weight: 400;
+  color: var(--color-on-surface);
+  margin-bottom: 6px;
+}
+.ds-section-desc {
+  font-size: 14px; color: var(--color-on-surface-variant);
+  margin-bottom: 28px;
+  max-width: 640px; line-height: 1.6;
+}
+.ds-divider {
+  border: none; border-top: 1px solid var(--color-outline-variant);
+  margin-bottom: 32px;
+}
+
+/* ── DS PAGE HEADER ───────────────────────────── */
+.ds-page-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #0D47A1 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px 48px;
+  margin-bottom: 48px;
+  display: flex; align-items: center; gap: 24px;
+}
+.ds-page-header .ds-logo {
+  width: 64px; height: 64px; border-radius: 16px;
+  background: rgba(255,255,255,.15);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ds-page-header .ds-logo .material-symbols-outlined { font-size: 36px; }
+.ds-page-header h1 { font-size: 36px; font-weight: 300; margin-bottom: 6px; }
+.ds-page-header p  { font-size: 14px; opacity: .8; }
+.ds-page-header .ds-badges { display: flex; gap: 8px; margin-top: 12px; }
+.ds-page-header .ds-badge {
+  background: rgba(255,255,255,.2);
+  border-radius: 99px; padding: 3px 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: .3px;
+}
+
+/* ── PREVIEW BLOCK ────────────────────────────── */
+.preview-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.preview-block .pb-label {
+  padding: 8px 16px;
+  font-size: 11px; font-weight: 700;
+  color: var(--color-on-surface-variant);
+  letter-spacing: .5px; text-transform: uppercase;
+  background: var(--color-surface-container-high);
+  border-bottom: 1px solid var(--color-outline-variant);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.preview-block .pb-label .pb-desc {
+  font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0;
+  color: var(--color-on-surface-variant); opacity: .7;
+}
+.preview-block .pb-body {
+  padding: 28px 24px;
+  background: var(--color-background);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.preview-block .pb-body.pb-dark {
+  background: #1A1C1E;
+}
+.preview-block .pb-body.pb-white {
+  background: #FFFFFF;
+}
+.preview-block .pb-body.pb-col {
+  flex-direction: column; align-items: flex-start;
+}
+
+/* ── COLOR TOKENS ─────────────────────────────── */
+.color-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.color-swatch {
+  border-radius: 10px; overflow: hidden;
+  box-shadow: var(--elevation-1);
+}
+.swatch-color {
+  height: 72px; display: flex; align-items: flex-end;
+  padding: 8px; font-size: 11px; font-weight: 600;
+}
+.swatch-info {
+  background: var(--color-surface);
+  padding: 8px 10px;
+  border-top: 1px solid var(--color-outline-variant);
+}
+.swatch-name {
+  font-size: 12px; font-weight: 600; color: var(--color-on-surface);
+}
+.swatch-value {
+  font-size: 10px; color: var(--color-on-surface-variant); font-family: monospace;
+}
+
+.color-group-label {
+  font-size: 12px; font-weight: 700; color: var(--color-on-surface-variant);
+  letter-spacing: .5px; text-transform: uppercase;
+  margin: 20px 0 10px;
+}
+.color-group-label:first-child { margin-top: 0; }
+
+/* ── TYPOGRAPHY SPECIMEN ──────────────────────── */
+.type-row {
+  display: grid; grid-template-columns: 140px 1fr 120px;
+  gap: 16px; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--color-outline-variant);
+}
+.type-row:last-child { border-bottom: none; }
+.type-meta { font-size: 11px; color: var(--color-on-surface-variant); }
+.type-meta strong { color: var(--color-on-surface); display: block; font-size: 12px; }
+.type-spec { font-family: monospace; font-size: 11px; color: var(--color-on-surface-variant); text-align: right; }
+
+/* ── SHAPE TOKENS ─────────────────────────────── */
+.shape-grid {
+  display: flex; flex-wrap: wrap; gap: 16px;
+}
+.shape-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.shape-box {
+  width: 80px; height: 56px;
+  background: var(--color-primary-container);
+  border: 2px solid var(--color-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--color-primary); font-weight: 600;
+}
+.shape-label { font-size: 11px; font-weight: 600; color: var(--color-on-surface-variant); }
+.shape-value { font-size: 10px; font-family: monospace; color: var(--color-on-surface-variant); }
+
+/* ── ELEVATION ────────────────────────────────── */
+.elev-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+.elev-box {
+  width: 100px; height: 80px;
+  background: var(--color-surface);
+  border-radius: 8px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+}
+.elev-label { font-size: 11px; font-weight: 600; color: var(--color-on-surface-variant); }
+.elev-value { font-size: 10px; font-family: monospace; color: var(--color-on-surface-variant); }
+
+/* ── SPACING ──────────────────────────────────── */
+.spacing-rows { display: flex; flex-direction: column; gap: 8px; }
+.spacing-row {
+  display: flex; align-items: center; gap: 16px;
+}
+.spacing-bar-wrap { flex: 1; }
+.spacing-bar {
+  height: 24px; background: var(--color-primary-container);
+  border-radius: 4px;
+  display: flex; align-items: center; padding: 0 8px;
+  font-size: 11px; font-weight: 600; color: var(--color-primary);
+}
+.spacing-meta { width: 80px; font-size: 11px; font-weight: 600; color: var(--color-on-surface-variant); text-align: right; }
+.spacing-token { width: 140px; font-size: 11px; font-family: monospace; color: var(--color-on-surface-variant); }
+
+/* ── SEAT MAP DEMO ────────────────────────────── */
+.seat-demo-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ───────────────────────────────────── -->
+<aside class="ds-sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-name">KSRTC Design System</div>
+    <div class="brand-version">v1.0 · Material Design 3</div>
+  </div>
+  <nav>
+    <div class="nav-group-label">Foundation</div>
+    <a href="#colors" class="nav-item active">
+      <span class="material-symbols-outlined">palette</span> Color
+    </a>
+    <a href="#typography" class="nav-item">
+      <span class="material-symbols-outlined">text_fields</span> Typography
+    </a>
+    <a href="#shape" class="nav-item">
+      <span class="material-symbols-outlined">rounded_corner</span> Shape
+    </a>
+    <a href="#elevation" class="nav-item">
+      <span class="material-symbols-outlined">layers</span> Elevation
+    </a>
+    <a href="#spacing" class="nav-item">
+      <span class="material-symbols-outlined">space_bar</span> Spacing
+    </a>
+
+    <div class="nav-group-label">Components</div>
+    <a href="#buttons" class="nav-item">
+      <span class="material-symbols-outlined">smart_button</span> Buttons
+    </a>
+    <a href="#segmented" class="nav-item">
+      <span class="material-symbols-outlined">toggle_on</span> Segmented
+    </a>
+    <a href="#fields" class="nav-item">
+      <span class="material-symbols-outlined">input</span> Fields
+    </a>
+    <a href="#chips" class="nav-item">
+      <span class="material-symbols-outlined">sell</span> Chips & Badges
+    </a>
+    <a href="#cards" class="nav-item">
+      <span class="material-symbols-outlined">credit_card</span> Cards
+    </a>
+    <a href="#table" class="nav-item">
+      <span class="material-symbols-outlined">table_chart</span> Data Table
+    </a>
+    <a href="#seat-map" class="nav-item">
+      <span class="material-symbols-outlined">airline_seat_recline_extra</span> Seat Map
+    </a>
+    <a href="#fare" class="nav-item">
+      <span class="material-symbols-outlined">receipt_long</span> Fare Summary
+    </a>
+    <a href="#dialog" class="nav-item">
+      <span class="material-symbols-outlined">info</span> Dialog
+    </a>
+    <a href="#navigation" class="nav-item">
+      <span class="material-symbols-outlined">web</span> Navigation
+    </a>
+  </nav>
+</aside>
+
+<!-- ── MAIN CONTENT ──────────────────────────────── -->
+<main class="ds-main">
+
+  <!-- Header -->
+  <div class="ds-page-header">
+    <div class="ds-logo">
+      <span class="material-symbols-outlined">directions_bus</span>
+    </div>
+    <div>
+      <h1>KSRTC Design System</h1>
+      <p>Visual component library for the Advanced Ticket Booking platform</p>
+      <div class="ds-badges">
+        <span class="ds-badge">Material Design 3</span>
+        <span class="ds-badge">v1.0</span>
+        <span class="ds-badge">Desktop Web</span>
+        <span class="ds-badge">Roboto</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       COLORS
+  ═══════════════════════════════════════════════ -->
+  <section id="colors" class="ds-section">
+    <h2 class="ds-section-title">Color</h2>
+    <p class="ds-section-desc">
+      Based on MD3 color roles. Primary is KSRTC brand blue, Secondary is KSRTC orange used exclusively for CTAs and highlights. All semantic roles are mapped to cover light mode.
+    </p>
+
+    <div class="color-group-label">Primary</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#1A56A0;color:#fff">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-value">--color-primary · #1A56A0</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#fff;color:#1A56A0;border-bottom:none">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">On Primary</div><div class="swatch-value">--color-on-primary · #FFFFFF</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#D6E4FF;color:#00205F">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Primary Container</div><div class="swatch-value">--color-primary-container · #D6E4FF</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#00205F;color:#D6E4FF">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">On Primary Container</div><div class="swatch-value">--color-on-primary-container · #00205F</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-label">Secondary (CTA)</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#D84315;color:#fff">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-value">--color-secondary · #D84315</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#fff;color:#D84315">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">On Secondary</div><div class="swatch-value">--color-on-secondary · #FFFFFF</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#FFDBCA;color:#5C1900">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Secondary Container</div><div class="swatch-value">--color-secondary-container · #FFDBCA</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#5C1900;color:#FFDBCA">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">On Secondary Container</div><div class="swatch-value">--color-on-secondary-container · #5C1900</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-label">Tertiary (Success / Confirmed)</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#2E7D32;color:#fff">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Tertiary</div><div class="swatch-value">--color-tertiary · #2E7D32</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#E8F5E9;color:#1B5E20">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Tertiary Container</div><div class="swatch-value">--color-tertiary-container · #E8F5E9</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#B3261E;color:#fff">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-value">--color-error · #B3261E</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#F9DEDC;color:#410E0B">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Error Container</div><div class="swatch-value">--color-error-container · #F9DEDC</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-label">Surface & Background</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#F1F4FB;color:#1A1C1E;border:1px solid #C4C6D0">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-value">--color-background · #F1F4FB</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#FFFFFF;color:#1A1C1E;border:1px solid #C4C6D0">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-value">--color-surface · #FFFFFF</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#EEF2F9;color:#1A1C1E">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Surface Container Low</div><div class="swatch-value">--color-surface-container-low</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#DCE3EE;color:#1A1C1E">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Surface Dim</div><div class="swatch-value">--color-surface-dim · #DCE3EE</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#74777F;color:#fff">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Outline</div><div class="swatch-value">--color-outline · #74777F</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#C4C6D0;color:#1A1C1E">Aa</div>
+        <div class="swatch-info"><div class="swatch-name">Outline Variant</div><div class="swatch-value">--color-outline-variant · #C4C6D0</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-label">Seat Map States</div>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7">12</div>
+        <div class="swatch-info"><div class="swatch-name">Available</div><div class="swatch-value">#E8F5E9 / #A5D6A7</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#D84315;color:#fff">12</div>
+        <div class="swatch-info"><div class="swatch-name">Selected</div><div class="swatch-value">--color-secondary</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#FCE4EC;color:#C2185B;border:1px solid #F48FB1">12</div>
+        <div class="swatch-info"><div class="swatch-name">Ladies</div><div class="swatch-value">#FCE4EC / #F48FB1</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#ECEFF1;color:#90A4AE;border:1px solid #B0BEC5;opacity:.6">12</div>
+        <div class="swatch-info"><div class="swatch-name">Blocked</div><div class="swatch-value">#ECEFF1 / #B0BEC5</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#E3F2FD;color:#1565C0;border:1px solid #90CAF9">12</div>
+        <div class="swatch-info"><div class="swatch-name">Conductor</div><div class="swatch-value">#E3F2FD / #90CAF9</div></div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background:#FFF9C4;color:#F57F17;border:1px solid #FFF176">12</div>
+        <div class="swatch-info"><div class="swatch-name">Quota</div><div class="swatch-value">#FFF9C4 / #FFF176</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       TYPOGRAPHY
+  ═══════════════════════════════════════════════ -->
+  <section id="typography" class="ds-section">
+    <h2 class="ds-section-title">Typography</h2>
+    <p class="ds-section-desc">
+      Roboto is the primary typeface, following MD3's type scale. All weights used are 400 (regular), 500 (medium), and 700 (bold).
+    </p>
+
+    <div class="preview-block">
+      <div class="pb-label">Type Scale <span class="pb-desc">All sizes / weights / roles</span></div>
+      <div class="pb-body pb-white pb-col" style="padding: 24px 28px; gap: 0;">
+        <div class="type-row">
+          <div class="type-meta"><strong>Headline Large</strong>Page titles</div>
+          <div style="font-size:32px;font-weight:400;line-height:1.25;color:#1A1C1E">Advanced Ticket Booking</div>
+          <div class="type-spec">32px / 400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Headline Medium</strong>Section titles</div>
+          <div style="font-size:28px;font-weight:400;line-height:1.28;color:#1A1C1E">Onward Journey Services</div>
+          <div class="type-spec">28px / 400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Title Large</strong>Card headers</div>
+          <div style="font-size:22px;font-weight:400;line-height:1.27;color:#1A1C1E">Passenger Details</div>
+          <div class="type-spec">22px / 400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Title Medium</strong>Sub-headers</div>
+          <div style="font-size:16px;font-weight:500;line-height:1.5;color:#1A1C1E">Select a Bus from Bengaluru to Mysuru</div>
+          <div class="type-spec">16px / 500</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Title Small</strong>Chip labels, field labels</div>
+          <div style="font-size:14px;font-weight:500;line-height:1.43;color:#1A1C1E">CLASS TYPE: AMBAARI UTSAV</div>
+          <div class="type-spec">14px / 500</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Label Large</strong>Buttons, table cols</div>
+          <div style="font-size:14px;font-weight:500;line-height:1.43;letter-spacing:.1px;color:#1A1C1E">SEARCH · SELECT · BOOK RETURN TICKET</div>
+          <div class="type-spec">14px / 500</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Label Medium</strong>Chips, helpers</div>
+          <div style="font-size:12px;font-weight:500;line-height:1.33;letter-spacing:.5px;color:#44464F;text-transform:uppercase">TRIP CODE · DEPARTURE · ARRIVAL</div>
+          <div class="type-spec">12px / 500</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Label Small</strong>Seat numbers, fine print</div>
+          <div style="font-size:11px;font-weight:500;line-height:1.45;letter-spacing:.5px;color:#44464F">UPPER BERTHS · LOWER BERTHS · QUOTA</div>
+          <div class="type-spec">11px / 500</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Body Large</strong>Form values</div>
+          <div style="font-size:16px;font-weight:400;line-height:1.5;color:#1A1C1E">19, Mysore Road, Telecom Colony, Srinagar</div>
+          <div class="type-spec">16px / 400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Body Medium</strong>Table cells, content</div>
+          <div style="font-size:14px;font-weight:400;line-height:1.43;color:#1A1C1E">2131BNGMRD · Bengaluru 4 · HASSAN-SKP-MNG</div>
+          <div class="type-spec">14px / 400</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><strong>Body Small</strong>Captions, helper text</div>
+          <div style="font-size:12px;font-weight:400;line-height:1.33;color:#44464F">© 2016 Karnataka State Road Transport Corporation | Powered by Mantis Technologies</div>
+          <div class="type-spec">12px / 400</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SHAPE
+  ═══════════════════════════════════════════════ -->
+  <section id="shape" class="ds-section">
+    <h2 class="ds-section-title">Shape</h2>
+    <p class="ds-section-desc">Border radius tokens following MD3's shape scale. Applied consistently to all components.</p>
+    <div class="preview-block">
+      <div class="pb-label">Shape Scale</div>
+      <div class="pb-body pb-white">
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:0">None</div>
+          <div class="shape-label">None</div><div class="shape-value">0px</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:4px">Extra SM</div>
+          <div class="shape-label">Extra Small</div><div class="shape-value">4px · Fields</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:8px">Small</div>
+          <div class="shape-label">Small</div><div class="shape-value">8px</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:12px">Medium</div>
+          <div class="shape-label">Medium</div><div class="shape-value">12px · Cards</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:16px">Large</div>
+          <div class="shape-label">Large</div><div class="shape-value">16px · Ticket</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:28px">XL</div>
+          <div class="shape-label">Extra Large</div><div class="shape-value">28px · Dialog</div>
+        </div>
+        <div class="shape-item">
+          <div class="shape-box" style="border-radius:9999px">Full</div>
+          <div class="shape-label">Full</div><div class="shape-value">9999px · Buttons</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       ELEVATION
+  ═══════════════════════════════════════════════ -->
+  <section id="elevation" class="ds-section">
+    <h2 class="ds-section-title">Elevation</h2>
+    <p class="ds-section-desc">Five elevation levels using box-shadow. Components are assigned a level based on their visual hierarchy and interactivity.</p>
+    <div class="preview-block">
+      <div class="pb-label">Elevation Levels</div>
+      <div class="pb-body" style="padding:40px 32px">
+        <div class="elev-box" style="box-shadow:none">
+          <div class="elev-label">Level 0</div><div class="elev-value">Background</div>
+        </div>
+        <div class="elev-box" style="box-shadow:0 1px 2px rgba(0,0,0,.25),0 1px 3px 1px rgba(0,0,0,.12)">
+          <div class="elev-label">Level 1</div><div class="elev-value">Cards</div>
+        </div>
+        <div class="elev-box" style="box-shadow:0 1px 2px rgba(0,0,0,.25),0 2px 6px 2px rgba(0,0,0,.12)">
+          <div class="elev-label">Level 2</div><div class="elev-value">Top bar</div>
+        </div>
+        <div class="elev-box" style="box-shadow:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15)">
+          <div class="elev-label">Level 3</div><div class="elev-value">Dialogs</div>
+        </div>
+        <div class="elev-box" style="box-shadow:0 2px 3px rgba(0,0,0,.3),0 6px 10px 4px rgba(0,0,0,.15)">
+          <div class="elev-label">Level 4</div><div class="elev-value">FAB hover</div>
+        </div>
+        <div class="elev-box" style="box-shadow:0 4px 4px rgba(0,0,0,.3),0 8px 12px 6px rgba(0,0,0,.15)">
+          <div class="elev-label">Level 5</div><div class="elev-value">Max</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SPACING
+  ═══════════════════════════════════════════════ -->
+  <section id="spacing" class="ds-section">
+    <h2 class="ds-section-title">Spacing</h2>
+    <p class="ds-section-desc">4px base unit. All spacing values are multiples of 4.</p>
+    <div class="preview-block">
+      <div class="pb-label">Spacing Scale</div>
+      <div class="pb-body pb-white pb-col" style="padding:20px 24px;gap:6px">
+        <div class="spacing-rows">
+          <div class="spacing-row"><div class="spacing-token">--space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px"></div></div><div class="spacing-meta">4px · xs</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px">8</div></div><div class="spacing-meta">8px · sm</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px">12</div></div><div class="spacing-meta">12px</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px">16</div></div><div class="spacing-meta">16px · base</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:60px">20</div></div><div class="spacing-meta">20px</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:80px">24</div></div><div class="spacing-meta">24px · xl</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:120px">32</div></div><div class="spacing-meta">32px · 2x</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-10</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:160px">40</div></div><div class="spacing-meta">40px</div></div>
+          <div class="spacing-row"><div class="spacing-token">--space-16</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:260px">64</div></div><div class="spacing-meta">64px · top bar</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       BUTTONS
+  ═══════════════════════════════════════════════ -->
+  <section id="buttons" class="ds-section">
+    <h2 class="ds-section-title">Buttons</h2>
+    <p class="ds-section-desc">Five button variants. Orange (Secondary) is reserved strictly for primary CTAs: SELECT, SEARCH, Book Return Ticket. Blue (Primary) for navigation actions. Tonal/Outlined for secondary actions like Reset or Close.</p>
+
+    <div class="preview-block">
+      <div class="pb-label">Filled — Primary <span class="pb-desc">Navigation, confirm, primary screen actions</span></div>
+      <div class="pb-body">
+        <button class="btn btn-filled"><span class="material-symbols-outlined">book_online</span> Book Return Ticket</button>
+        <button class="btn btn-filled"><span class="material-symbols-outlined">receipt_long</span> View Ticket</button>
+        <button class="btn btn-filled btn-sm"><span class="material-symbols-outlined">arrow_back</span> Back</button>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Filled — Secondary (Orange CTA) <span class="pb-desc">SELECT, SEARCH — high-priority ticket actions only</span></div>
+      <div class="pb-body">
+        <button class="btn btn-filled-secondary"><span class="material-symbols-outlined">search</span> Search</button>
+        <button class="btn btn-filled-secondary btn-sm">SELECT</button>
+        <button class="btn btn-filled-secondary">Available Credit: ₹ 50,856.00</button>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Filled — Success <span class="pb-desc">Booking confirmed, balance amount</span></div>
+      <div class="pb-body">
+        <button class="btn btn-filled-success"><span class="material-symbols-outlined">check_circle</span> Booking Confirmed</button>
+        <button class="btn btn-filled-success btn-sm"><span class="material-symbols-outlined">check</span> Saved</button>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Outlined <span class="pb-desc">Secondary actions, Close, Print</span></div>
+      <div class="pb-body">
+        <button class="btn btn-outlined"><span class="material-symbols-outlined">close</span> Close</button>
+        <button class="btn btn-outlined"><span class="material-symbols-outlined">print</span> Print</button>
+        <button class="btn btn-outlined"><span class="material-symbols-outlined">download</span> Download PDF</button>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Tonal <span class="pb-desc">Reset, New Booking, tertiary actions</span></div>
+      <div class="pb-body">
+        <button class="btn btn-tonal"><span class="material-symbols-outlined">refresh</span> Reset</button>
+        <button class="btn btn-tonal"><span class="material-symbols-outlined">add</span> New Booking</button>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Text + Icon Button <span class="pb-desc">Top App Bar actions</span></div>
+      <div class="pb-body pb-dark">
+        <button class="btn btn-text" style="color:#fff">Logout</button>
+        <div class="icon-btn icon-btn-on-primary"><span class="material-symbols-outlined">menu</span></div>
+        <div class="icon-btn icon-btn-on-primary"><span class="material-symbols-outlined">arrow_back</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SEGMENTED BUTTON
+  ═══════════════════════════════════════════════ -->
+  <section id="segmented" class="ds-section">
+    <h2 class="ds-section-title">Segmented Button</h2>
+    <p class="ds-section-desc">Used for trip type selection (One-Way / Return Trip / Trip Number). Active state uses primary container background.</p>
+    <div class="preview-block">
+      <div class="pb-label">Trip Type Selector</div>
+      <div class="pb-body pb-white">
+        <div class="segmented-btn">
+          <div class="seg-opt active">
+            <span class="material-symbols-outlined">check</span>One-Way
+          </div>
+          <div class="seg-opt">Return Trip</div>
+          <div class="seg-opt">Trip Number</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       FIELDS
+  ═══════════════════════════════════════════════ -->
+  <section id="fields" class="ds-section">
+    <h2 class="ds-section-title">Fields</h2>
+    <p class="ds-section-desc">Outlined text fields. Labels are uppercase in Primary blue. All inputs use extra-small radius (4px). Required fields marked with *.</p>
+    <div class="preview-block">
+      <div class="pb-label">Text Input / Select / Date</div>
+      <div class="pb-body pb-white" style="flex-wrap:wrap;gap:16px;align-items:flex-end">
+        <div class="field" style="min-width:160px">
+          <label>Source *</label>
+          <select><option>Bengaluru</option><option>Mysuru</option></select>
+        </div>
+        <div class="field" style="min-width:160px">
+          <label>Destination *</label>
+          <select><option>Mysuru</option><option>Hassan</option></select>
+        </div>
+        <div class="field" style="min-width:150px">
+          <label>Journey Date *</label>
+          <input type="date" value="2024-02-24">
+        </div>
+        <div class="field" style="min-width:220px">
+          <label>Email ID</label>
+          <input type="email" value="krishna.pandey@maventechlabs.com">
+        </div>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Error State</div>
+      <div class="pb-body pb-white">
+        <div class="field error" style="min-width:200px">
+          <label>Mobile Number *</label>
+          <input type="tel" value="">
+          <span class="helper-text">Mobile number is required</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       CHIPS & BADGES
+  ═══════════════════════════════════════════════ -->
+  <section id="chips" class="ds-section">
+    <h2 class="ds-section-title">Chips &amp; Badges</h2>
+    <p class="ds-section-desc">Filter chips for class type filtering. Credit/status badges for the booking toolbar.</p>
+    <div class="preview-block">
+      <div class="pb-label">Filter Chips</div>
+      <div class="pb-body pb-white">
+        <div class="chip-filter">Class Type Filter <span class="material-symbols-outlined">expand_more</span></div>
+        <div class="chip-filter selected"><span class="material-symbols-outlined">check</span>AC Sleeper</div>
+        <div class="chip-filter">AC Seater</div>
+        <div class="chip-filter">Non-AC Sleeper</div>
+      </div>
+    </div>
+    <div class="preview-block">
+      <div class="pb-label">Badges &amp; Status</div>
+      <div class="pb-body">
+        <span class="chip-badge">Available Credit: ₹ 50,856.00</span>
+        <span class="chip-success"><span class="material-symbols-outlined" style="font-size:14px">check_circle</span>Confirmed</span>
+        <span class="chip-assist"><span class="material-symbols-outlined" style="font-size:14px">confirmation_number</span>51293092</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       CARDS
+  ═══════════════════════════════════════════════ -->
+  <section id="cards" class="ds-section">
+    <h2 class="ds-section-title">Cards</h2>
+    <p class="ds-section-desc">Cards group related content. Elevated card is the primary use. Section headers sit inside cards with a Primary-blue header strip.</p>
+    <div class="preview-block">
+      <div class="pb-label">Card Variants</div>
+      <div class="pb-body" style="flex-direction:column;gap:16px;align-items:stretch">
+        <div class="card" style="padding:20px">
+          <div style="font-size:14px;font-weight:500;margin-bottom:4px">Elevated Card</div>
+          <div style="font-size:12px;color:#44464F">Used for Search, Seat Panel, Results sections. Radius: 12px, Shadow: Level 1.</div>
+        </div>
+        <div class="card-outlined" style="padding:20px">
+          <div style="font-size:14px;font-weight:500;margin-bottom:4px">Outlined Card</div>
+          <div style="font-size:12px;color:#44464F">Used for fare breakdown, inner cards. Border: 1px outline-variant.</div>
+        </div>
+        <div class="card" style="overflow:hidden">
+          <div class="sec-header"><h2>Section Header Card</h2></div>
+          <div style="padding:16px;font-size:12px;color:#44464F">Content inside a card with a blue section header — used for Journey Services panels.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       DATA TABLE
+  ═══════════════════════════════════════════════ -->
+  <section id="table" class="ds-section">
+    <h2 class="ds-section-title">Data Table</h2>
+    <p class="ds-section-desc">Used for bus listing results. Class-type group rows use primary-container as a blue divider. SELECT buttons align right. Table scrolls horizontally on overflow.</p>
+    <div class="preview-block">
+      <div class="pb-label">Bus Results Table</div>
+      <div style="overflow-x:auto">
+        <table class="data-tbl">
+          <thead>
+            <tr>
+              <th>Trip Code</th><th>Depot Name</th><th>Via Place</th>
+              <th>Dist (Km)</th><th>Departure</th><th>Arrival</th>
+              <th>Adult / Child Fare</th><th>CNM</th>
+              <th>Type</th><th>Seats</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="class-row"><td colspan="11">CLASS TYPE: AMBAARI UTSAV (AC SLEEPER) | SERVICES: 2</td></tr>
+            <tr>
+              <td>2131BNGMRD</td><td>BENGALURU 4</td><td>HASSAN-SKP-MNG (BCD4)</td>
+              <td>361</td><td>21:31</td><td>04:50</td>
+              <td>1,160 / 1,302</td><td>870</td><td>REGU</td><td>17</td>
+              <td><button class="btn btn-filled-secondary btn-sm">SELECT</button></td>
+            </tr>
+            <tr class="sel-row">
+              <td>2131BNGMRD</td><td>KUNDAPURA</td><td>HASSAN-MNG-UDP (CDP)</td>
+              <td>361</td><td>21:40</td><td>05:00</td>
+              <td>1,160 / 1,302</td><td>870</td><td>REGU</td><td>11</td>
+              <td><button class="btn btn-filled-secondary btn-sm">CLOSE</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SEAT MAP
+  ═══════════════════════════════════════════════ -->
+  <section id="seat-map" class="ds-section">
+    <h2 class="ds-section-title">Seat Map</h2>
+    <p class="ds-section-desc">
+      Exact KSRTC 2+1 AC Sleeper layout. Upper berths: 2 columns on the left + 8 columns on the right with an emergency-exit gap before the last column. Lower berths: 10 continuous columns. Each column = one berth position (window side on top, aisle side on bottom). Click a seat to toggle selection.
+    </p>
+    <div class="preview-block">
+      <div class="pb-label">Interactive Seat Map — Ambaari Utsav (AC Sleeper) · 40 Berths</div>
+      <div class="pb-body pb-white pb-col">
+        <div class="seat-demo-wrap">
+          <div class="seat-map-wrap" style="display:inline-block">
+            <div class="berth-row" id="ds-upper-grid"></div>
+            <div class="bus-deck-bar">
+              <svg width="22" height="22" viewBox="0 0 22 22" class="steer-ico" aria-label="Driver — front of bus">
+                <circle cx="11" cy="11" r="8.5" stroke="#757575" stroke-width="2" fill="none"/>
+                <circle cx="11" cy="11" r="2.2" fill="#757575"/>
+                <line x1="11" y1="2.5" x2="11" y2="8.8" stroke="#757575" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="3.5" y1="7"   x2="8.5" y2="10"  stroke="#757575" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="18.5" y1="7"  x2="13.5" y2="10" stroke="#757575" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="berth-row" id="ds-lower-grid"></div>
+          </div>
+        </div>
+        <div class="seat-legend" style="margin-top:12px">
+          <div class="legend-item"><div class="legend-dot" style="background:transparent;border-color:#2E7D32"></div>Available</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2E7D32;border-color:#2E7D32"></div>Selected</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C2185B;border-color:#C2185B"></div>Ladies</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#78909C;border-color:#78909C"></div>Blocked</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1565C0;border-color:#1565C0"></div>Conductor</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#FFF9C4;border-color:#FFF176"></div>Quota</div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#44464F">
+          <strong>Layout rules:</strong>
+          Each column = berth position &nbsp;·&nbsp;
+          Top cell = window/left side &nbsp;·&nbsp;
+          Bottom cell = aisle/right side &nbsp;·&nbsp;
+          Wider gap after col 2 (upper) = front aisle &nbsp;·&nbsp;
+          Gap before last upper column = emergency exit
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       FARE SUMMARY
+  ═══════════════════════════════════════════════ -->
+  <section id="fare" class="ds-section">
+    <h2 class="ds-section-title">Fare Summary</h2>
+    <p class="ds-section-desc">Paired layout: left is the ticket stub (dashed border) for reference, right is the fare breakdown card. Balance Amount row uses success green background.</p>
+    <div class="preview-block">
+      <div class="pb-label">Fare Summary Layout</div>
+      <div class="pb-body pb-white" style="align-items:stretch;gap:16px">
+        <div class="ticket-stub" style="min-width:180px">
+          <span class="stub-label">Ticket Number</span>
+          <span class="stub-num">51293092</span>
+          <span style="font-size:10px;color:#44464F">Keep this for reference</span>
+        </div>
+        <div class="fare-card" style="flex:1;min-width:240px">
+          <div class="fare-line"><span class="fl-label">Reservation Fee (+)</span><span class="fl-val">40.00</span></div>
+          <div class="fare-line"><span class="fl-label">Concessions (−)</span><span class="fl-val">0.00</span></div>
+          <div class="fare-line"><span class="fl-label">ARF + UF + TF + EF + BF (+)</span><span class="fl-val">22.00</span></div>
+          <div class="fare-line"><span class="fl-label">GST (+)</span><span class="fl-val">0.00</span></div>
+          <div class="fare-line total"><span class="fl-label">Total Fare</span><span class="fl-val">₹ 202.00</span></div>
+          <div class="fare-line balance"><span class="fl-label">Balance Amount</span><span class="fl-val">₹ 202.00</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       DIALOG
+  ═══════════════════════════════════════════════ -->
+  <section id="dialog" class="ds-section">
+    <h2 class="ds-section-title">Dialog</h2>
+    <p class="ds-section-desc">XL radius (28px) with centre-screen overlay. Success dialog uses tertiary-container icon background. Pops in at 0.2s with scale animation.</p>
+    <div class="preview-block">
+      <div class="pb-label">Booking Confirmed Dialog (static preview)</div>
+      <div class="pb-body" style="justify-content:center;padding:32px">
+        <div style="background:#fff;border-radius:28px;padding:28px;max-width:380px;width:100%;box-shadow:0 1px 3px rgba(0,0,0,.3),0 4px 8px 3px rgba(0,0,0,.15);text-align:center">
+          <div style="width:60px;height:60px;border-radius:50%;background:#E8F5E9;color:#2E7D32;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+            <span class="material-symbols-outlined" style="font-size:34px">check_circle</span>
+          </div>
+          <div style="font-size:20px;font-weight:500;margin-bottom:8px">Booking Confirmed!</div>
+          <p style="font-size:13px;color:#44464F;margin-bottom:18px">Your seats have been successfully reserved. Save your ticket number below.</p>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:#FFDBCA;color:#5C1900;border-radius:9999px;padding:8px 20px;font-size:20px;font-weight:700;letter-spacing:2px;margin-bottom:24px">
+            <span class="material-symbols-outlined" style="font-size:20px">confirmation_number</span>51293092
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button class="btn btn-outlined">Close</button>
+            <button class="btn btn-filled"><span class="material-symbols-outlined">receipt_long</span>View Ticket</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
+  <section id="navigation" class="ds-section">
+    <h2 class="ds-section-title">Navigation</h2>
+    <p class="ds-section-desc">Top App Bar for primary navigation. Headline Bar for page context. Both are sticky — Top App Bar at z-index 100.</p>
+    <div class="preview-block">
+      <div class="pb-label">Top App Bar</div>
+      <div style="background:#F1F4FB;padding:0;overflow:hidden;border-radius:0 0 8px 8px">
+        <div style="background:#1A56A0;color:#fff;height:64px;display:flex;align-items:center;padding:0 16px;gap:12px">
+          <div class="icon-btn icon-btn-on-primary"><span class="material-symbols-outlined">menu</span></div>
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center">
+            <span class="material-symbols-outlined">directions_bus</span>
+          </div>
+          <div style="font-size:13px;font-weight:500">Karnataka State Road Transport Corporation</div>
+          <div style="width:1px;height:28px;background:rgba(255,255,255,.25);margin:0 4px"></div>
+          <span style="font-size:13px;opacity:.88">Welcome | Manish Manohar</span>
+          <span style="font-size:12px;opacity:.7">3:41:56, Thursday, 1 February 2024</span>
+          <div style="flex:1"></div>
+          <span style="font-size:12px;font-weight:500;background:rgba(255,255,255,.15);border-radius:9999px;padding:4px 12px">Counter Code: KBSC2</span>
+          <button class="btn btn-text" style="color:#fff">Logout</button>
+        </div>
+        <div style="background:#D6E4FF;border-bottom:1px solid #C4C6D0;padding:8px 20px;display:flex;align-items:center;gap:8px">
+          <span class="material-symbols-outlined" style="font-size:18px;color:#1A56A0">confirmation_number</span>
+          <span style="font-size:13px;font-weight:700;color:#00205F;letter-spacing:.6px;text-transform:uppercase">Advanced Ticket Booking</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ─── Seat map demo ──────────────────────────── */
+/* Exact KSRTC 40-berth layout (verified from reference):
+   Upper: [1][3]|gap|[7][11][15][19][23][27][31]|gap|[37]
+           [2][4]|gap|[8][12][16][20][24][28][32]|gap|[38]
+   Lower: [5][9][13][17][21][25][29][33][35][39]
+           [6][10][14][18][22][26][30][34][36][40]       */
+const UPPER = [
+  {top:{n:1,t:'available'},  bot:{n:2,t:'available'}},
+  {top:{n:3,t:'available'},  bot:{n:4,t:'available'}},
+  null, // front aisle gap
+  {top:{n:7,t:'available'},  bot:{n:8,t:'ladies'}},
+  {top:{n:11,t:'available'}, bot:{n:12,t:'available'}},
+  {top:{n:15,t:'available'}, bot:{n:16,t:'available'}},
+  {top:{n:19,t:'available'}, bot:{n:20,t:'available'}},
+  {top:{n:23,t:'available'}, bot:{n:24,t:'available'}},
+  {top:{n:27,t:'available'}, bot:{n:28,t:'available'}},
+  {top:{n:31,t:'available'}, bot:{n:32,t:'available'}},
+  null, // emergency exit gap
+  {top:{n:37,t:'available'}, bot:{n:38,t:'available'}},
+];
+const LOWER = [
+  {top:{n:5,t:'available'},  bot:{n:6,t:'available'}},
+  {top:{n:9,t:'available'},  bot:{n:10,t:'available'}},
+  {top:{n:13,t:'available'}, bot:{n:14,t:'available'}},
+  {top:{n:17,t:'available'}, bot:{n:18,t:'ladies'}},
+  {top:{n:21,t:'available'}, bot:{n:22,t:'available'}},
+  {top:{n:25,t:'available'}, bot:{n:26,t:'available'}},
+  {top:{n:29,t:'available'}, bot:{n:30,t:'available'}},
+  {top:{n:33,t:'available'}, bot:{n:34,t:'available'}},
+  {top:{n:35,t:'available'}, bot:{n:36,t:'available'}},
+  {top:{n:39,t:'available'}, bot:{n:40,t:'conductor'}},
+];
+
+const dsSel = new Set([11, 12]);
+
+function buildDsGrid(id, cols) {
+  const c = document.getElementById(id);
+  cols.forEach(col => {
+    if (!col) { const g = document.createElement('div'); g.className='berth-gap'; c.appendChild(g); return; }
+    const w = document.createElement('div'); w.className='berth-col';
+    [col.top, col.bot].forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'seat ' + (dsSel.has(s.n) ? 'selected' : s.t);
+      el.textContent = s.n;
+      if (s.t !== 'blocked' && s.t !== 'conductor')
+        el.addEventListener('click', () => {
+          if (dsSel.has(s.n)) { dsSel.delete(s.n); el.className='seat '+s.t; }
+          else { dsSel.add(s.n); el.className='seat selected'; }
+        });
+      w.appendChild(el);
+    });
+    c.appendChild(w);
+  });
+}
+buildDsGrid('ds-upper-grid', UPPER);
+buildDsGrid('ds-lower-grid', LOWER);
+
+/* ─── Sidebar active on scroll ──────────────── */
+const sections = document.querySelectorAll('.ds-section');
+const navLinks  = document.querySelectorAll('.nav-item');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.nav-item[href="#'+e.target.id+'"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

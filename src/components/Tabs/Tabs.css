@@ -1,0 +1,48 @@
+.ksrtc-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-outline-variant);
+  gap: 0;
+}
+.ksrtc-tab {
+  position: relative;
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  padding: var(--space-3) var(--space-6);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-family-base);
+  font-size: var(--type-title-small-size);
+  font-weight: var(--type-title-small-weight);
+  color: var(--color-on-surface-variant);
+  transition: color var(--motion-duration-short), background var(--motion-duration-short);
+  white-space: nowrap;
+}
+.ksrtc-tab:hover { background: var(--color-surface-container-low); }
+.ksrtc-tab--active { color: var(--color-primary); }
+.ksrtc-tab__indicator {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: 3px 3px 0 0;
+}
+.ksrtc-tab__icon { font-size: 18px !important; }
+.ksrtc-tab__badge {
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+  border-radius: 9999px;
+  font-size: 10px; font-weight: 700;
+  padding: 1px 5px;
+  min-width: 16px; text-align: center;
+}
+
+/* Secondary variant — compact, no indicator line */
+.ksrtc-tabs--secondary { border-bottom: none; }
+.ksrtc-tabs--secondary .ksrtc-tab {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--type-label-large-size);
+  border-radius: var(--shape-full);
+}
+.ksrtc-tabs--secondary .ksrtc-tab--active {
+  background: var(--color-primary-container);
+  color: var(--color-primary);
+}
+.ksrtc-tabs--secondary .ksrtc-tab__indicator { display: none; }

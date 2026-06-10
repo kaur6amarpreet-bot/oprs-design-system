@@ -1,0 +1,49 @@
+.ksrtc-toggle {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  cursor: pointer; user-select: none;
+}
+.ksrtc-toggle--disabled { cursor: not-allowed; opacity: 0.38; }
+
+.ksrtc-toggle__track { position: relative; width: 52px; height: 32px; }
+
+.ksrtc-toggle__input {
+  position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%;
+  cursor: inherit; margin: 0; z-index: 1;
+}
+
+.ksrtc-toggle__track-bg {
+  width: 52px; height: 32px;
+  background: var(--color-surface-variant);
+  border: 2px solid var(--color-outline);
+  border-radius: 9999px;
+  transition: background var(--motion-duration-short), border-color var(--motion-duration-short);
+  display: flex; align-items: center;
+  padding: 0 4px;
+  pointer-events: none;
+}
+.ksrtc-toggle__input:checked + .ksrtc-toggle__track-bg {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.ksrtc-toggle__thumb {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--color-outline);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--motion-duration-medium) var(--motion-easing-standard),
+              width var(--motion-duration-short),
+              height var(--motion-duration-short),
+              background var(--motion-duration-short);
+}
+.ksrtc-toggle__input:checked + .ksrtc-toggle__track-bg .ksrtc-toggle__thumb {
+  transform: translateX(20px);
+  width: 24px; height: 24px; margin-left: -4px;
+  background: var(--color-on-primary);
+}
+
+.ksrtc-toggle__label {
+  font-size: var(--type-body-medium-size);
+  color: var(--color-on-surface);
+  cursor: inherit;
+}

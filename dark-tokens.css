@@ -1,0 +1,80 @@
+/* ═══════════════════════════════════════════════════════
+   KSRTC DESIGN SYSTEM — DARK MODE TOKEN OVERRIDES
+   Applied via [data-theme="dark"] on the story wrapper
+═══════════════════════════════════════════════════════ */
+
+[data-theme="dark"] {
+
+  /* Primary — lighter blue on dark surfaces */
+  --color-primary:                  #A8C8FF;
+  --color-on-primary:               #00316E;
+  --color-primary-container:        #004494;
+  --color-on-primary-container:     #D6E4FF;
+  --color-primary-fixed:            #D6E4FF;
+  --color-primary-fixed-dim:        #A8C8FF;
+
+  /* Secondary — lighter orange on dark */
+  --color-secondary:                #FFAB8D;
+  --color-on-secondary:             #5C1900;
+  --color-secondary-container:      #802200;
+  --color-on-secondary-container:   #FFDBCA;
+
+  /* Tertiary — success green on dark */
+  --color-tertiary:                 #84D98A;
+  --color-on-tertiary:              #003910;
+  --color-tertiary-container:       #005319;
+  --color-on-tertiary-container:    #A0F4A5;
+
+  /* Error */
+  --color-error:                    #FFB4AB;
+  --color-on-error:                 #690005;
+  --color-error-container:          #93000A;
+  --color-on-error-container:       #FFDAD6;
+
+  /* Surface layers */
+  --color-surface:                  #121316;
+  --color-surface-dim:              #121316;
+  --color-surface-bright:           #37393C;
+  --color-surface-container-lowest: #0D0E11;
+  --color-surface-container-low:    #1A1C1F;
+  --color-surface-container:        #1E2023;
+  --color-surface-container-high:   #282B2E;
+  --color-surface-container-highest:#333538;
+  --color-on-surface:               #E3E2E6;
+  --color-on-surface-variant:       #C4C6D0;
+  --color-surface-variant:          #44464F;
+
+  /* Background */
+  --color-background:               #121316;
+  --color-on-background:            #E3E2E6;
+
+  /* Outline */
+  --color-outline:                  #8E9099;
+  --color-outline-variant:          #44464F;
+
+  /* Inverse */
+  --color-inverse-surface:          #E3E2E6;
+  --color-inverse-on-surface:       #2F3033;
+  --color-inverse-primary:          #1A56A0;
+
+  /* Seat map — keep readable on dark */
+  --color-seat-available:           #1B3D1C;
+  --color-seat-available-border:    #4CAF50;
+  --color-seat-available-text:      #84D98A;
+
+  --color-seat-ladies:              #3D1A28;
+  --color-seat-ladies-border:       #E91E63;
+  --color-seat-ladies-text:         #F48FB1;
+
+  --color-seat-blocked:             #2A2A2A;
+  --color-seat-blocked-border:      #555;
+  --color-seat-blocked-text:        #888;
+
+  --color-seat-conductor:           #1A2D3D;
+  --color-seat-conductor-border:    #1976D2;
+  --color-seat-conductor-text:      #90CAF9;
+
+  --color-seat-quota:               #3D3000;
+  --color-seat-quota-border:        #FFC107;
+  --color-seat-quota-text:          #FFD54F;
+}

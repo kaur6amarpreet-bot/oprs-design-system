@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════════════
+   KSRTC TextField — scoped component styles
+   Sizes: sm (32px) · md (40px, default) · lg (48px)
+   States: default · focus · filled · error · disabled · readonly
+   Variants: outlined · filled · search
+═══════════════════════════════════════════════════════ */
+
+.ksrtc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-family-base);
+}
+
+/* ── Label ─────────────────────────────────────────────── */
+.ksrtc-field__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-primary);
+  letter-spacing: .1px;
+  line-height: 1.4;
+}
+.ksrtc-field--error  .ksrtc-field__label { color: var(--color-error); }
+.ksrtc-field--disabled .ksrtc-field__label { color: var(--color-on-surface-variant); opacity: .6; }
+
+/* ── Input wrapper ─────────────────────────────────────── */
+.ksrtc-field__wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Base input ────────────────────────────────────────── */
+.ksrtc-field__input {
+  width: 100%;
+  font-family: var(--font-family-base);
+  font-size: var(--type-body-medium-size);
+  color: var(--color-on-surface);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-outline);
+  border-radius: var(--shape-extra-sm);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    border-color var(--motion-duration-short) var(--motion-easing-standard),
+    background  var(--motion-duration-short) var(--motion-easing-standard),
+    box-shadow  var(--motion-duration-short) var(--motion-easing-standard);
+}
+
+/* Placeholder */
+.ksrtc-field__input::placeholder { color: var(--color-outline); }
+
+/* Focus */
+.ksrtc-field__input:focus {
+  border-color: var(--color-primary);
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(26,86,160,.12);
+}
+
+/* Textarea */
+.ksrtc-field__input--textarea {
+  height: auto;
+  resize: vertical;
+  line-height: var(--type-body-medium-lh);
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+
+/* ── Sizes ─────────────────────────────────────────────── */
+.ksrtc-field--sm .ksrtc-field__input {
+  height: 32px;
+  padding: 0 var(--space-3);
+  font-size: var(--type-body-small-size);
+}
+.ksrtc-field--md .ksrtc-field__input {
+  height: 40px;
+  padding: 0 var(--space-3);
+}
+.ksrtc-field--lg .ksrtc-field__input {
+  height: 48px;
+  padding: 0 var(--space-4);
+  font-size: var(--type-body-large-size);
+}
+
+/* Leading/trailing icon padding adjustments */
+.ksrtc-field--has-leading.ksrtc-field--sm  .ksrtc-field__input { padding-left: 32px; }
+.ksrtc-field--has-leading.ksrtc-field--md  .ksrtc-field__input { padding-left: 36px; }
+.ksrtc-field--has-leading.ksrtc-field--lg  .ksrtc-field__input { padding-left: 40px; }
+.ksrtc-field--has-trailing.ksrtc-field--sm .ksrtc-field__input { padding-right: 32px; }
+.ksrtc-field--has-trailing.ksrtc-field--md .ksrtc-field__input { padding-right: 36px; }
+.ksrtc-field--has-trailing.ksrtc-field--lg .ksrtc-field__input { padding-right: 40px; }
+
+/* ── Variants ──────────────────────────────────────────── */
+
+/* Filled variant */
+.ksrtc-field--filled .ksrtc-field__input {
+  background: var(--color-surface-container-high);
+  border-color: transparent;
+  border-radius: var(--shape-extra-sm) var(--shape-extra-sm) 0 0;
+  border-bottom: 1.5px solid var(--color-outline);
+}
+.ksrtc-field--filled .ksrtc-field__input:focus {
+  background: var(--color-surface-container-high);
+  border-color: transparent;
+  border-bottom-color: var(--color-primary);
+  border-bottom-width: 2px;
+  box-shadow: none;
+}
+.ksrtc-field--filled.ksrtc-field--error .ksrtc-field__input {
+  border-bottom-color: var(--color-error);
+}
+
+/* Search variant */
+.ksrtc-field--search .ksrtc-field__input {
+  border-radius: var(--shape-full);
+  background: var(--color-surface-container);
+  border-color: transparent;
+}
+.ksrtc-field--search .ksrtc-field__input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  border-radius: var(--shape-full);
+}
+
+/* ── States ────────────────────────────────────────────── */
+
+/* Error */
+.ksrtc-field--error .ksrtc-field__input {
+  border-color: var(--color-error) !important;
+}
+.ksrtc-field--error .ksrtc-field__input:focus {
+  box-shadow: 0 0 0 3px rgba(179,38,30,.12);
+}
+
+/* Disabled */
+.ksrtc-field--disabled .ksrtc-field__input {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+  color: var(--color-on-surface-variant);
+  cursor: not-allowed;
+  opacity: .6;
+}
+.ksrtc-field--disabled .ksrtc-field__input::placeholder { opacity: .5; }
+
+/* Readonly */
+.ksrtc-field--readonly .ksrtc-field__input {
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline-variant);
+  border-style: dashed;
+  cursor: default;
+}
+.ksrtc-field--readonly .ksrtc-field__input:focus {
+  border-color: var(--color-outline-variant);
+  box-shadow: none;
+}
+
+/* ── Icons ─────────────────────────────────────────────── */
+.ksrtc-field__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-on-surface-variant);
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.ksrtc-field__icon--leading  { left: 10px; }
+.ksrtc-field__icon--trailing { right: 10px; }
+
+.ksrtc-field--lg .ksrtc-field__icon { font-size: 20px; }
+.ksrtc-field--sm .ksrtc-field__icon { font-size: 16px; }
+
+.ksrtc-field--error .ksrtc-field__icon--trailing { color: var(--color-error); }
+
+/* Actionable trailing icon (clear, password toggle) */
+.ksrtc-field__icon-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  color: var(--color-on-surface-variant);
+  border-radius: 50%;
+  transition: background var(--motion-duration-short);
+}
+.ksrtc-field__icon-btn:hover { background: var(--color-surface-container); }
+.ksrtc-field__icon-btn .material-symbols-outlined { font-size: 18px !important; }
+
+/* ── Prefix / Suffix text ──────────────────────────────── */
+.ksrtc-field__prefix,
+.ksrtc-field__suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--type-body-medium-size);
+  color: var(--color-on-surface-variant);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.ksrtc-field__prefix { left: var(--space-3); }
+.ksrtc-field__suffix { right: var(--space-3); }
+
+.ksrtc-field--has-prefix .ksrtc-field__input  { padding-left: 28px; }
+.ksrtc-field--has-suffix .ksrtc-field__input   { padding-right: 32px; }
+
+/* ── Helper / Error text ───────────────────────────────── */
+.ksrtc-field__support {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 16px;
+}
+.ksrtc-field__helper {
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.4;
+  flex: 1;
+}
+.ksrtc-field--error .ksrtc-field__helper { color: var(--color-error); }
+.ksrtc-field__charcount {
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ksrtc-field__charcount--over { color: var(--color-error); font-weight: 600; }
+
+/* ── Dark mode ─────────────────────────────────────────── */
+[data-theme="dark"] .ksrtc-field__input {
+  background: var(--color-surface-container);
+  border-color: var(--color-outline);
+  color: var(--color-on-surface);
+}
+[data-theme="dark"] .ksrtc-field__input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(168,200,255,.15);
+}
+[data-theme="dark"] .ksrtc-field--filled .ksrtc-field__input {
+  background: var(--color-surface-container-high);
+}
+[data-theme="dark"] .ksrtc-field--search .ksrtc-field__input {
+  background: var(--color-surface-container-high);
+}
+[data-theme="dark"] .ksrtc-field--disabled .ksrtc-field__input,
+[data-theme="dark"] .ksrtc-field--readonly .ksrtc-field__input {
+  background: var(--color-surface-container-low);
+}

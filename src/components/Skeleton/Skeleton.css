@@ -1,0 +1,15 @@
+.ksrtc-skeleton {
+  background: linear-gradient(90deg,
+    var(--color-surface-container-high) 25%,
+    var(--color-surface-container) 50%,
+    var(--color-surface-container-high) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.ksrtc-skeleton--circle { border-radius: 50%; }
+.ksrtc-skeleton--text   { height: 12px; border-radius: 4px; }
+.ksrtc-skeleton--rect   {}

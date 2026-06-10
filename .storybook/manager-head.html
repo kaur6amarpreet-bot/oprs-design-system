@@ -1,0 +1,115 @@
+<style>
+  /* ── Controls panel — argsTable text ─────────────────── */
+  [class*="addon-"] table td,
+  [class*="addon-"] table th,
+  [class*="argstable"] td,
+  [class*="argstable"] th {
+    color: #1A1C1E !important;
+  }
+  [class*="addon-"] table td p,
+  [class*="addon-"] table td span:not([class*="badge"]):not([class*="chip"]) {
+    color: #44464F !important;
+  }
+  [class*="addon-"] table td:first-child { color: #1A1C1E !important; font-weight: 500 !important; }
+  [class*="addon-"] table td:nth-child(3) { color: #74777F !important; }
+
+  /* Category headers */
+  [class*="GroupHeader"],
+  [class*="category"] > td,
+  [class*="addon-"] [class*="GroupHeader"] {
+    background: #0D3370 !important;
+    color: #FFFFFF !important;
+  }
+  [class*="GroupHeader"] *,
+  [class*="addon-"] [class*="GroupHeader"] * { color: #FFFFFF !important; }
+
+  /* Control inputs */
+  [class*="addon-"] input,
+  [class*="addon-"] textarea,
+  [class*="addon-"] select {
+    color: #1A1C1E !important;
+    background: #FFFFFF !important;
+  }
+
+  /* ── Dark manager mode ───────────────────────────────── */
+  [data-manager-theme="dark"] [class*="addon-"] table td,
+  [data-manager-theme="dark"] [class*="addon-"] table th {
+    color: #E3E2E6 !important;
+  }
+  [data-manager-theme="dark"] [class*="addon-"] table td p,
+  [data-manager-theme="dark"] [class*="addon-"] table td span {
+    color: #C4C6D0 !important;
+  }
+  [data-manager-theme="dark"] [class*="addon-"] table td:first-child { color: #E3E2E6 !important; }
+  [data-manager-theme="dark"] [class*="addon-"] table td:nth-child(3) { color: #8E9099 !important; }
+  [data-manager-theme="dark"] [class*="GroupHeader"],
+  [data-manager-theme="dark"] [class*="addon-"] [class*="GroupHeader"] {
+    background: #004494 !important;
+  }
+  [data-manager-theme="dark"] [class*="addon-"] input,
+  [data-manager-theme="dark"] [class*="addon-"] textarea,
+  [data-manager-theme="dark"] [class*="addon-"] select {
+    color: #E3E2E6 !important;
+    background: #1E2023 !important;
+    border-color: #44464F !important;
+  }
+</style>
+
+<script>
+/* ── Force white text on bottom bar tab buttons ─────────────
+   Emotion re-injects .css-166fje6 { color: #1A1C1E } on every
+   React re-render, beating any static !important rule.
+   MutationObserver watches the bar and directly sets inline
+   color on every tab button descendant whenever it changes.  */
+(function() {
+  var BAR_SEL   = '.sb-bar';
+  var BTN_SEL   = '[id^="tabbutton-"]';
+  var WHITE     = 'rgba(255,255,255,0.88)';
+  var WHITE_ACT = '#ffffff';
+  var ORANGE    = '#D84315';
+
+  function paintTabs() {
+    var bar = document.querySelector(BAR_SEL);
+    if (!bar) return;
+    var btns = bar.querySelectorAll(BTN_SEL);
+    btns.forEach(function(btn) {
+      var isActive = btn.classList.contains('tabbutton-active');
+      var col = isActive ? WHITE_ACT : WHITE;
+      /* Force colour on every descendant — inline style wins */
+      btn.querySelectorAll('*').forEach(function(el) {
+        el.style.setProperty('color', col, 'important');
+      });
+      btn.style.setProperty('color', col, 'important');
+      /* Active indicator */
+      if (isActive) {
+        btn.style.setProperty('border-bottom', '2px solid ' + ORANGE, 'important');
+      }
+    });
+  }
+
+  function start() {
+    paintTabs();
+    /* Watch for any DOM change inside .sb-bar */
+    var bar = document.querySelector(BAR_SEL);
+    if (!bar) {
+      /* Bar not yet in DOM — watch body until it appears */
+      var bodyObs = new MutationObserver(function() {
+        if (document.querySelector(BAR_SEL)) {
+          bodyObs.disconnect();
+          start();
+        }
+      });
+      bodyObs.observe(document.body, { childList: true, subtree: true });
+      return;
+    }
+    var obs = new MutationObserver(function() { paintTabs(); });
+    obs.observe(bar, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+</script>

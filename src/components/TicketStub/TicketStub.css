@@ -1,0 +1,107 @@
+.ksrtc-ticket {
+  background: var(--color-surface);
+  border: 1.5px dashed #bdbdbd;
+  border-radius: var(--shape-lg);
+  overflow: hidden;
+  width: 380px;
+  max-width: 100%;
+  box-shadow: var(--elevation-2);
+}
+
+.ksrtc-ticket__header {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: var(--space-3) var(--space-4);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ksrtc-ticket__header-brand {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-size: var(--type-title-small-size);
+  font-weight: var(--type-title-small-weight);
+  letter-spacing: .4px;
+}
+.ksrtc-ticket__status {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 10px;
+  border-radius: var(--shape-full);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .3px;
+}
+
+.ksrtc-ticket__route {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  gap: var(--space-3);
+}
+.ksrtc-ticket__city { display: flex; flex-direction: column; gap: 2px; }
+.ksrtc-ticket__city--right { align-items: flex-end; }
+.ksrtc-ticket__city-name {
+  font-size: var(--type-headline-small-size);
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+.ksrtc-ticket__time {
+  font-size: var(--type-body-small-size);
+  color: var(--color-on-surface-variant);
+}
+.ksrtc-ticket__route-arrow {
+  color: var(--color-outline);
+  flex: 1; text-align: center;
+}
+
+.ksrtc-ticket__perforation {
+  border-top: 2px dashed #e0e0e0;
+  margin: 0 -1.5px;
+  position: relative;
+}
+.ksrtc-ticket__perforation::before,
+.ksrtc-ticket__perforation::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 20px; height: 20px;
+  background: var(--color-background);
+  border-radius: 50%;
+}
+.ksrtc-ticket__perforation::before { left: -12px; }
+.ksrtc-ticket__perforation::after  { right: -12px; }
+
+.ksrtc-ticket__details {
+  padding: var(--space-4) var(--space-5);
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.ksrtc-ticket__detail-row { display: flex; gap: var(--space-6); }
+.ksrtc-ticket__detail { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.ksrtc-ticket__detail-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+}
+.ksrtc-ticket__detail-value {
+  font-size: var(--type-body-medium-size);
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+.ksrtc-ticket__stub {
+  padding: var(--space-4) var(--space-5);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--color-surface-container-low);
+}
+.ksrtc-ticket__stub-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 2px;
+}
+.ksrtc-ticket__stub-number {
+  font-size: 22px; font-weight: 700;
+  color: var(--color-tertiary);
+  letter-spacing: 2px;
+}
+.ksrtc-ticket__fare { text-align: right; }
+.ksrtc-ticket__fare-amount {
+  font-size: var(--type-title-large-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}

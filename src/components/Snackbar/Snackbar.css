@@ -1,0 +1,40 @@
+.ksrtc-snackbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--shape-sm);
+  font-size: var(--type-body-medium-size);
+  box-shadow: var(--elevation-3);
+  min-width: 280px;
+  max-width: 560px;
+  animation: snackbar-in var(--motion-duration-medium) var(--motion-easing-decelerate);
+}
+@keyframes snackbar-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Types */
+.ksrtc-snackbar--default  { background: var(--color-inverse-surface); color: var(--color-inverse-on-surface); }
+.ksrtc-snackbar--success  { background: var(--color-tertiary); color: var(--color-on-tertiary); }
+.ksrtc-snackbar--error    { background: var(--color-error); color: var(--color-on-error); }
+.ksrtc-snackbar--warning  { background: #E65100; color: #fff; }
+
+.ksrtc-snackbar__icon { font-size: 20px !important; flex-shrink: 0; }
+.ksrtc-snackbar__message { flex: 1; line-height: 1.4; }
+.ksrtc-snackbar__action {
+  background: none; border: none; cursor: pointer;
+  font-size: var(--type-label-large-size);
+  font-weight: var(--type-label-large-weight);
+  color: inherit; opacity: 0.9;
+  padding: 0 var(--space-2);
+  white-space: nowrap;
+  text-decoration: underline;
+}
+.ksrtc-snackbar__action:hover { opacity: 1; }
+.ksrtc-snackbar__close {
+  background: none; border: none; cursor: pointer;
+  color: inherit; opacity: 0.7; display: flex; padding: 0;
+}
+.ksrtc-snackbar__close:hover { opacity: 1; }

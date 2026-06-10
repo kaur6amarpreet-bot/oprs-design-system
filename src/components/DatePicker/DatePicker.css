@@ -1,0 +1,236 @@
+/* ── DatePicker root ──────────────────────────────────────────── */
+.ksrtc-dp {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  min-width: 140px;
+  font-family: var(--font-family-base);
+  padding-top: 8px; /* reserve space for floating border label */
+}
+
+.ksrtc-dp--full-width { width: 100%; }
+
+/* ── Anchor wrapper — label floats on trigger border ─────────── */
+.ksrtc-dp__anchor {
+  position: relative;
+  width: 100%;
+}
+
+/* ── Label — floating border (md3-border-lbl pattern) ────────── */
+.ksrtc-dp__label {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1px;
+  color: var(--color-on-surface-variant, #44464F);
+  background: var(--color-surface, #FFFFFF);
+  padding: 0 4px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+  transition: color .15s;
+  white-space: nowrap;
+}
+
+.ksrtc-dp__required { color: var(--color-error, #B3261E); margin-left: 1px; }
+
+/* Label color changes when picker is open */
+.ksrtc-dp--open .ksrtc-dp__label    { color: var(--color-primary, #1A56A0); }
+.ksrtc-dp--error .ksrtc-dp__label   { color: var(--color-error, #B3261E); }
+.ksrtc-dp--disabled .ksrtc-dp__label { color: var(--color-on-surface-variant); opacity: .5; }
+
+/* ── Trigger button — outlined, matches md3-dp and md3-menu ─── */
+.ksrtc-dp__trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 8px 0 12px;
+  background: var(--color-surface, #FFFFFF);
+  border: 1.5px solid var(--color-outline, #74777F);
+  border-radius: var(--shape-extra-sm, 4px);
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  color: var(--color-on-surface, #1A1C1E);
+  width: 100%;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .15s, box-shadow .15s;
+  user-select: none;
+}
+
+.ksrtc-dp__trigger:hover:not(:disabled) {
+  border-color: var(--color-on-surface, #1A1C1E);
+}
+
+.ksrtc-dp__trigger--open,
+.ksrtc-dp__trigger:focus-visible {
+  border-color: var(--color-primary, #1A56A0);
+  box-shadow: inset 0 0 0 .75px var(--color-primary, #1A56A0);
+  outline: none;
+}
+
+.ksrtc-dp__trigger--error {
+  border-color: var(--color-error, #B3261E);
+  box-shadow: inset 0 0 0 .75px var(--color-error, #B3261E);
+}
+
+.ksrtc-dp__trigger--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-surface-container-low);
+}
+
+/* Calendar icon + chevron */
+.ksrtc-dp__icon   { font-size: 18px !important; color: var(--color-on-surface-variant, #49454F); flex-shrink: 0; }
+.ksrtc-dp__chevron {
+  font-size: 20px !important;
+  color: var(--color-on-surface-variant, #49454F);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.ksrtc-dp--open .ksrtc-dp__chevron { transform: rotate(180deg); }
+
+.ksrtc-dp__value { flex: 1; text-align: left; line-height: 1.2; }
+.ksrtc-dp__value--placeholder { color: var(--color-on-surface-variant, #74777F); }
+
+/* ── Calendar panel ───────────────────────────────────────────── */
+.ksrtc-dp__panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  z-index: 600;
+  background: #fff;
+  border-radius: var(--shape-md, 12px);
+  box-shadow: 0 4px 24px rgba(0,0,0,.2);
+  padding: 8px 8px 12px;
+  display: block;
+  width: 280px;
+  animation: dp-open 120ms ease;
+}
+
+@keyframes dp-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Navigation row */
+.ksrtc-dp__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 8px;
+}
+
+.ksrtc-dp__nav-btn {
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-on-surface-variant, #49454F);
+  transition: background 120ms ease;
+  outline: none;
+}
+
+.ksrtc-dp__nav-btn:hover { background: rgba(0,0,0,.08); }
+.ksrtc-dp__nav-btn .material-symbols-outlined { font-size: 20px !important; }
+
+.ksrtc-dp__month-year {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-surface, #1A1C1E);
+}
+
+/* Day grid — 7 columns */
+.ksrtc-dp__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 4px;
+  gap: 1px;
+}
+
+.ksrtc-dp__day-header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant, #49454F);
+  padding: 3px 0;
+}
+
+/* Day cell */
+.ksrtc-dp__day {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  background: none;
+  color: var(--color-on-surface, #1A1C1E);
+  font-family: var(--font-family-base);
+  transition: background 100ms ease;
+  width: 100%;
+}
+
+.ksrtc-dp__day:hover:not(:disabled):not(.ksrtc-dp__day--selected) {
+  background: rgba(26,86,160,.08);
+}
+
+.ksrtc-dp__day--today:not(.ksrtc-dp__day--selected) {
+  border: 1.5px solid var(--color-primary, #1A56A0);
+  color: var(--color-primary, #1A56A0);
+  font-weight: 600;
+}
+
+.ksrtc-dp__day--selected {
+  background: var(--color-primary, #1A56A0);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+}
+
+.ksrtc-dp__day--disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* ── Helper text ──────────────────────────────────────────────── */
+.ksrtc-dp__helper {
+  font-size: 11px;
+  color: var(--color-on-surface-variant, #49454F);
+  padding-left: 4px;
+  margin-top: 2px;
+}
+
+.ksrtc-dp__helper--error { color: var(--color-error, #B3261E); }
+
+/* ── Dark mode ────────────────────────────────────────────────── */
+[data-theme="dark"] .ksrtc-dp__trigger {
+  background: var(--color-surface);
+  border-color: var(--color-outline);
+  color: var(--color-on-surface);
+}
+
+[data-theme="dark"] .ksrtc-dp__label {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .ksrtc-dp__panel {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+}

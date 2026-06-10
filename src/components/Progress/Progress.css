@@ -1,0 +1,28 @@
+.ksrtc-linear-progress {
+  width: 100%; height: 4px;
+  background: var(--color-surface-container-high);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.ksrtc-linear-progress__track {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 9999px;
+  transition: width var(--motion-duration-medium) var(--motion-easing-standard);
+}
+.ksrtc-linear-progress__track--indeterminate {
+  width: 50% !important;
+  animation: linear-indeterminate 1.4s var(--motion-easing-standard) infinite;
+}
+@keyframes linear-indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+.ksrtc-circular-progress--spin {
+  animation: circular-spin 1.4s linear infinite;
+}
+@keyframes circular-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
