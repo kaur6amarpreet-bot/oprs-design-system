@@ -9,7 +9,7 @@ export const oprsTheme = create({
   brandTarget: '_self',
 
   colorPrimary:   '#1A56A0',
-  colorSecondary: '#D84315',
+  colorSecondary: '#1A56A0',
 
   appBg:           '#0D3370',
   appContentBg:    '#FFFFFF',

@@ -11,103 +11,218 @@ export default {
         component: `
 <span class="ds-status ds-status--stable">● Stable</span>
 
-Interactive seat selection for OPRS sleeper buses. Two sections — **upper berths** and **lower berths** — each laid out as columns of 2 berths side by side.
+Interactive seat/berth selection for OPRS buses. Three layout variants match the three bus types operated by KSRTC:
+
+| Layout | Bus Type | Structure |
+|---|---|---|
+| \`seater\` | Non-AC Ordinary / Rajahamsa | Single deck, upright seats — flat 2-row grid |
+| \`sleeper\` | Airavat Club Class / Sleeper | Two decks (Upper + Lower), each with 2+1 berth layout |
+| \`semi-sleeper\` | Airavat / Fly Bus | Upper deck: 2+1 berths  ·  Lower deck: flat seater rows |
+
+**Seat data shape**
+\`\`\`js
+// Seater
+{ number: 1, status: 'available', section: 'lower' }
+
+// Sleeper / semi-sleeper upper
+{ number: 1, status: 'available', section: 'upper', side: 'window' }
+{ number: 13, status: 'available', section: 'upper', side: 'aisle' }
+\`\`\`
+
+The \`side\` field controls 2+1 placement: \`'window'\` seats are grouped in pairs (2 rows), \`'aisle'\` seats form the single bottom row.
 
 | Status | Colour | Interaction |
 |---|---|---|
 | Available | Green border | Selectable |
 | Selected | Dark green fill | Toggle off |
-| Ladies | Pink border | Selectable (women only — UI allows, backend validates) |
+| Ladies | Pink border/bg | Selectable (women only) |
 | Blocked | Grey | Not selectable |
-| Conductor | Orange border | Not selectable |
-| Quota | Blue border | Not selectable |
-
-\`maxSelect\` defaults to 6 per booking.
+| Conductor | Orange border/bg | Not selectable |
+| Quota | Indigo border/bg | Not selectable |
         `,
       },
     },
     backgrounds: { default: 'surface' },
   },
   argTypes: {
+    layout: {
+      control: 'radio',
+      options: ['seater', 'sleeper', 'semi-sleeper'],
+      description: 'Bus type layout',
+      table: { category: 'Appearance' },
+    },
     maxSelect: {
       table: { category: 'Behaviour' },
       control: { type: 'number', min: 1, max: 10 },
-      description: 'Maximum seats a user can select in one booking.',
+      description: 'Maximum seats a user can select.',
     },
-    seats:              { table: { disable: true } },
-    onSelectionChange:  { table: { disable: true } },
+    seats:             { table: { disable: true } },
+    onSelectionChange: { table: { disable: true } },
   },
 };
 
-// ─── Seat data factory ──────────────────────────────────────────────
-// Matches the actual OPRS prototype numbering:
-// Upper: cols 1–10 → seats (1,2), (3,4), (7,8), (11,12), (15,16), (19,20), (23,24), (27,28), (31,32), (37,38)
-// Lower: cols 1–10 → seats (5,6), (9,10), (13,14), (17,18), (21,22), (25,26), (29,30), (33,34), (35,36), (39,40)
+// ─── Seat data factories ──────────────────────────────────────────
 
-function makeFullBus() {
-  const upperNums  = [1,2, 3,4, 7,8, 11,12, 15,16, 19,20, 23,24, 27,28, 31,32, 37,38];
-  const lowerNums  = [5,6, 9,10, 13,14, 17,18, 21,22, 25,26, 29,30, 33,34, 35,36, 39,40];
+function makeSeaterBus() {
+  const nums = Array.from({ length: 40 }, (_, i) => i + 1);
+  const statusMap = {
+    3: 'blocked', 7: 'ladies', 8: 'ladies', 14: 'blocked', 15: 'conductor',
+    20: 'blocked', 21: 'blocked', 26: 'blocked', 32: 'blocked', 35: 'quota',
+  };
+  return nums.map(n => ({
+    number: n,
+    status: statusMap[n] || 'available',
+    section: 'lower',
+  }));
+}
 
-  const statuses = {
-    1: 'available', 2: 'available',
-    3: 'available', 4: 'blocked',
-    7: 'blocked',   8: 'ladies',
-    11: 'available',12: 'available',
-    15: 'available',16: 'blocked',
-    19: 'blocked',  20: 'conductor',
-    23: 'blocked',  24: 'available',
-    27: 'available',28: 'available',
-    31: 'available',32: 'blocked',
-    37: 'blocked',  38: 'blocked',
-    5: 'available', 6: 'available',
-    9: 'available', 10: 'available',
-    13: 'available',14: 'available',
-    17: 'ladies',   18: 'ladies',
-    21: 'available',22: 'blocked',
-    25: 'blocked',  26: 'blocked',
-    29: 'blocked',  30: 'blocked',
-    33: 'available',34: 'blocked',
-    35: 'blocked',  36: 'blocked',
-    39: 'available',40: 'quota',
+// 18 berths per deck: 12 window (6 cols × 2) + 6 aisle
+function makeSleeperDeck(section, startNum) {
+  const statusMap = {
+    [startNum + 0]: 'available',
+    [startNum + 1]: 'available',
+    [startNum + 2]: 'ladies',
+    [startNum + 3]: 'blocked',
+    [startNum + 4]: 'available',
+    [startNum + 5]: 'available',
+    [startNum + 6]: 'quota',
+    [startNum + 7]: 'available',
+    [startNum + 8]: 'available',
+    [startNum + 9]: 'blocked',
+    [startNum + 10]: 'available',
+    [startNum + 11]: 'conductor',
+    [startNum + 12]: 'available',
+    [startNum + 13]: 'blocked',
+    [startNum + 14]: 'available',
+    [startNum + 15]: 'ladies',
+    [startNum + 16]: 'available',
+    [startNum + 17]: 'blocked',
   };
 
   return [
-    ...upperNums.map(n => ({ number: n, status: statuses[n] || 'available', section: 'upper' })),
-    ...lowerNums.map(n => ({ number: n, status: statuses[n] || 'available', section: 'lower' })),
+    // Window side — 12 seats (6 columns × 2)
+    ...[0,1,2,3,4,5,6,7,8,9,10,11].map(offset => ({
+      number: startNum + offset,
+      status: statusMap[startNum + offset] || 'available',
+      section,
+      side: 'window',
+    })),
+    // Aisle side — 6 seats
+    ...[12,13,14,15,16,17].map(offset => ({
+      number: startNum + offset,
+      status: statusMap[startNum + offset] || 'available',
+      section,
+      side: 'aisle',
+    })),
   ];
 }
 
-const fullBusSeats = makeFullBus();
+function makeSleeperBus() {
+  return [
+    ...makeSleeperDeck('upper', 1),
+    ...makeSleeperDeck('lower', 19),
+  ];
+}
 
-// ─── Stories ────────────────────────────────────────────────────────
+function makeSemiSleeperBus() {
+  const statusMap = {
+    20: 'blocked', 21: 'ladies', 22: 'ladies', 25: 'blocked',
+    28: 'conductor', 31: 'blocked', 35: 'quota', 38: 'blocked',
+  };
+  const lower = Array.from({ length: 24 }, (_, i) => ({
+    number: 19 + i,
+    status: statusMap[19 + i] || 'available',
+    section: 'lower',
+  }));
+  return [...makeSleeperDeck('upper', 1), ...lower];
+}
+
+// ─── Stories ──────────────────────────────────────────────────────
 
 export const Playground = {
   args: {
-    seats: fullBusSeats,
+    seats: makeSleeperBus(),
+    layout: 'sleeper',
     maxSelect: 6,
   },
 };
 
-export const FullBus = {
-  name: 'Full Bus — Airavat Club Class',
+// ── 1. Seater ─────────────────────────────────────────────────────
+export const SeaterLayout = {
+  name: '1 · Seater — single deck',
   parameters: { controls: { disable: true } },
   render: () => (
-    <SeatMap
-      seats={fullBusSeats}
-      maxSelect={6}
-      onSelectionChange={(s) => console.log('Selected seats:', s)}
-    />
+    <div className="story-col">
+      <div className="story-label">
+        Ordinary / Non-AC buses — upright seats, flat 2-row grid
+      </div>
+      <SeatMap
+        layout="seater"
+        seats={makeSeaterBus()}
+        maxSelect={6}
+        onSelectionChange={s => console.log('Selected:', s)}
+      />
+    </div>
   ),
 };
 
-export const LowerOnly = {
-  name: 'Lower Berths Only',
+// ── 2. Sleeper ────────────────────────────────────────────────────
+export const SleeperLayout = {
+  name: '2 · Sleeper — upper + lower berths (2+1)',
   parameters: { controls: { disable: true } },
   render: () => (
-    <SeatMap
-      seats={fullBusSeats.filter(s => s.section === 'lower')}
-      maxSelect={4}
-    />
+    <div className="story-col">
+      <div className="story-label">
+        Airavat Club Class / Full Sleeper — two decks, each with 2+1 berth layout
+      </div>
+      <SeatMap
+        layout="sleeper"
+        seats={makeSleeperBus()}
+        maxSelect={6}
+        onSelectionChange={s => console.log('Selected:', s)}
+      />
+    </div>
+  ),
+};
+
+// ── 3. Semi-sleeper ───────────────────────────────────────────────
+export const SemiSleeperLayout = {
+  name: '3 · Semi-sleeper — upper berths + lower seats',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="story-col">
+      <div className="story-label">
+        Airavat / Fly Bus — upper deck: 2+1 berths · lower deck: flat seater rows
+      </div>
+      <SeatMap
+        layout="semi-sleeper"
+        seats={makeSemiSleeperBus()}
+        maxSelect={6}
+        onSelectionChange={s => console.log('Selected:', s)}
+      />
+    </div>
+  ),
+};
+
+// ── All three side by side ─────────────────────────────────────────
+export const AllVariants = {
+  name: 'All Layout Variants',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div>
+        <div className="story-label" style={{ marginBottom: 12, fontWeight: 700 }}>Seater</div>
+        <SeatMap layout="seater" seats={makeSeaterBus()} maxSelect={4} />
+      </div>
+      <div>
+        <div className="story-label" style={{ marginBottom: 12, fontWeight: 700 }}>Sleeper</div>
+        <SeatMap layout="sleeper" seats={makeSleeperBus()} maxSelect={4} />
+      </div>
+      <div>
+        <div className="story-label" style={{ marginBottom: 12, fontWeight: 700 }}>Semi-Sleeper</div>
+        <SeatMap layout="semi-sleeper" seats={makeSemiSleeperBus()} maxSelect={4} />
+      </div>
+    </div>
   ),
 };
 
@@ -117,54 +232,21 @@ export const AllStatuses = {
   render: () => (
     <div className="story-col">
       <div className="story-section">
-        <h3>Status reference — one of each</h3>
+        <h3>Status reference — berth cells</h3>
         <SeatMap
+          layout="sleeper"
           seats={[
-            { number: 1,  status: 'available',  section: 'upper' },
-            { number: 2,  status: 'ladies',     section: 'upper' },
-            { number: 3,  status: 'blocked',    section: 'upper' },
-            { number: 4,  status: 'conductor',  section: 'upper' },
-            { number: 5,  status: 'quota',      section: 'upper' },
+            { number: 1, status: 'available',  section: 'upper', side: 'window' },
+            { number: 2, status: 'ladies',     section: 'upper', side: 'window' },
+            { number: 3, status: 'blocked',    section: 'upper', side: 'window' },
+            { number: 4, status: 'conductor',  section: 'upper', side: 'window' },
+            { number: 5, status: 'quota',      section: 'lower', side: 'window' },
+            { number: 6, status: 'available',  section: 'lower', side: 'window' },
+            { number: 7, status: 'available',  section: 'upper', side: 'aisle'  },
+            { number: 8, status: 'ladies',     section: 'lower', side: 'aisle'  },
           ]}
           maxSelect={2}
         />
-      </div>
-      <div className="story-section">
-        <h3>Colour tokens</h3>
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12,
-          fontSize: 12, color: 'var(--color-on-surface-variant)',
-        }}>
-          {[
-            { s: 'Available',  bg: '#fff',     bd: '#2e7d32', tx: '#2e7d32' },
-            { s: 'Selected',   bg: '#1b5e20',  bd: '#1b5e20', tx: '#fff'    },
-            { s: 'Ladies',     bg: '#fce4ec',  bd: '#c2185b', tx: '#c2185b' },
-            { s: 'Blocked',    bg: '#f0f0f0',  bd: '#b0b0b0', tx: '#b0b0b0' },
-            { s: 'Conductor',  bg: '#fff3e0',  bd: '#e65100', tx: '#e65100' },
-            { s: 'Quota',      bg: '#e8eaf6',  bd: '#3949ab', tx: '#3949ab' },
-          ].map(({ s, bg, bd, tx }) => (
-            <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 38, height: 38, borderRadius: 6, border: `1.5px solid ${bd}`, background: bg, color: tx, fontSize: 12, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                01
-              </div>
-              <div>
-                <div style={{ fontWeight: 600, color: 'var(--color-on-surface)' }}>{s}</div>
-                <div style={{ fontFamily: 'monospace', fontSize: 10 }}>bg {bg} / border {bd}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="story-section">
-        <h3>Accessibility notes</h3>
-        <div style={{ background: '#F8FAFF', border: '1px solid #D6E4FF', borderRadius: 10, padding: '14px 18px' }}>
-          <ul style={{ fontSize: 13, color: '#44464F', lineHeight: 1.8, paddingLeft: 18, margin: 0 }}>
-            <li>Each seat has <span className="ds-prop">aria-label</span>: "Seat 14 — available".</li>
-            <li>Blocked, conductor, and quota seats are <span className="ds-prop">aria-disabled</span> and <span className="ds-prop">tabIndex="-1"</span>.</li>
-            <li>Selected state is communicated via <span className="ds-prop">aria-pressed</span>, not just colour.</li>
-            <li>Ladies seats are selectable — the UI allows booking; the backend enforces the reservation.</li>
-          </ul>
-        </div>
       </div>
     </div>
   ),
@@ -174,13 +256,12 @@ export const NearlySoldOut = {
   name: 'Nearly Sold Out',
   parameters: { controls: { disable: true } },
   render: () => {
-    // Only a few available seats
-    const sparseSeats = fullBusSeats.map(s => ({
+    const sparseSeats = makeSleeperBus().map(s => ({
       ...s,
-      status: [1, 12, 33, 39].includes(s.number)
+      status: [1, 5, 19, 23].includes(s.number)
         ? 'available'
         : s.status === 'available' ? 'blocked' : s.status,
     }));
-    return <SeatMap seats={sparseSeats} maxSelect={6} />;
+    return <SeatMap layout="sleeper" seats={sparseSeats} maxSelect={6} />;
   },
 };

@@ -79,12 +79,12 @@ export const Welcome = {
             <div style={{ fontSize:12, fontWeight:600, letterSpacing:1.2, textTransform:'uppercase', opacity:.7, marginBottom:6 }}>OPRS Portal</div>
             <h1 style={{ fontSize:36, fontWeight:700, lineHeight:1.15, margin:0, letterSpacing:-.5 }}>OPRS<br />Design System</h1>
             <p style={{ fontSize:15, opacity:.8, marginTop:12, lineHeight:1.6, maxWidth:480 }}>
-              A token-driven component library built on Material Design 3. Consistent, accessible, and aligned to the OPRS product language.
+              A token-driven component library built for KSRTC's OPRS. Consistent, accessible, and aligned to the OPRS product language.
             </p>
             <div style={{ display:'flex', flexWrap:'wrap', gap:10, marginTop:24 }}>
               {[
                 { icon:'widgets',     label:`${components.length} Components` },
-                { icon:'palette',     label:'MD3 Tokens'       },
+                { icon:'palette',     label:'Design Tokens'    },
                 { icon:'devices',     label:'Responsive'       },
                 { icon:'accessibility',label:'WCAG 2.1 AA'     },
               ].map(b => (
@@ -104,7 +104,7 @@ export const Welcome = {
           { num:`${components.length}`, label:'Components',    icon:'widgets',     color:'#1A56A0' },
           { num:'77',    label:'Stories',       icon:'auto_stories', color:'#D84315' },
           { num:'5',     label:'Token layers',  icon:'layers',      color:'#2E7D32' },
-          { num:'100%',  label:'MD3 aligned',   icon:'check_circle', color:'#6750A4' },
+          { num:'100%',  label:'Token driven',   icon:'check_circle', color:'#6750A4' },
         ].map(s => (
           <div key={s.label} style={{ background:'#fff', borderRadius:14, padding:'20px 20px', border:'1px solid #E2E8F3', display:'flex', flexDirection:'column', gap:8 }}>
             <span className="material-symbols-outlined" style={{ fontSize:22, color:s.color }}>{s.icon}</span>
@@ -157,7 +157,7 @@ export const Welcome = {
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(200px, 1fr))', gap:14 }}>
           {[
             { title:'Color',      desc:'Brand, semantic, seat map', icon:'palette',     path:'?path=/docs/design-tokens-overview--color-tokens' },
-            { title:'Typography', desc:'MD3 type scale — Roboto',    icon:'text_fields', path:'?path=/docs/design-tokens-overview--typography' },
+            { title:'Typography', desc:'Type scale — Roboto',          icon:'text_fields', path:'?path=/docs/design-tokens-overview--typography' },
             { title:'Spacing',    desc:'4px base unit system',        icon:'space_bar',   path:'?path=/docs/design-tokens-overview--spacing-scale' },
             { title:'Elevation',  desc:'5-level shadow system',       icon:'layers',      path:'?path=/docs/design-tokens-overview--elevation' },
             { title:'Shape',      desc:'Border radius scale',         icon:'rounded_corner', path:'?path=/docs/design-tokens-overview--shape-border-radius' },
